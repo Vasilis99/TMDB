@@ -9,6 +9,9 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
+            <option value="$PROJECT_DIR$/../AxiomCore" />
+            <option value="$PROJECT_DIR$/../AxiomCore/core" />
+            <option value="$PROJECT_DIR$/../AxiomCore/testapp" />
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
           </set>

@@ -1,37 +1,32 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.axiomc.gradle-plugin' version '25'
+}
+
+axiom {
+    define {
+        keystore = "\\\\flssrv01\\AppReleases\\Keys\\SignKeys\\beanbar.jks"
+        identity = 'com.axiomc.tmdb'
+        nickname = 'default_key'
+        password = 'ax10mm3r1t!'
+        baffler = 7
+    }
 }
 
 android {
-    namespace 'com.axiom.tmdb'
-    compileSdk 33
-
-    defaultConfig {
-        applicationId "com.axiom.tmdb"
-        minSdk 24
-        targetSdk 33
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    buildFeatures {
+        buildConfig = true
     }
+    buildTypes{
+        debug{
 
-    buildTypes {
+        }
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
 }
-
 dependencies {
 
     implementation 'androidx.core:core-ktx:1.8.0'

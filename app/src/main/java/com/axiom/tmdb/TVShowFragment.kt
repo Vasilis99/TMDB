@@ -1,5 +1,6 @@
 package com.axiom.tmdb
 
+import android.os.Build
 import android.os.Bundle
 import android.text.Html
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -56,7 +58,8 @@ class TVShowFragment: Fragment() {
             var call = myApi.getTVShowDetails(tvShowID)
             println("Edo "+tvShowID)
             call.enqueue(object : Callback<TMDB.TVShowDetails> {
-                override fun onResponse(call: Call<TMDB.TVShowDetails>,response: Response<TMDB.TVShowDetails>) {
+                @RequiresApi(Build.VERSION_CODES.N)
+                override fun onResponse(call: Call<TMDB.TVShowDetails>, response: Response<TMDB.TVShowDetails>) {
                     if (!response.isSuccessful) {
                         println("Response not successful. Code: " + response.code())
                         return
@@ -109,7 +112,7 @@ class TVShowFragment: Fragment() {
                             creatorCreditID.apply {
                                 creatorCreditID.id = View.generateViewId()
                                 layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                                    topToBottom = backdropImage.id
+                                    topToBottom = creatorID.id
                                     topMargin=16
                                     startToStart = createdBy.id
                                     endToEnd = createdBy.id
@@ -154,9 +157,12 @@ class TVShowFragment: Fragment() {
                                     endToEnd = createdBy.id
                                 }
                                 var url1="https://image.tmdb.org/t/p/original"+x.profile_path
+
                                 profileImage.load(url1)
                             }
+
                             createdBy.addView(profileImage)
+
                         }
                     }
                 }

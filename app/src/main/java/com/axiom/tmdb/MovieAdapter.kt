@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.axiomc.tmdb.R
 
 class MovieAdapter(var moviesDetails: TMDB.MovieBasic,var movieGenres: List<TMDB.GenrePair>) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
