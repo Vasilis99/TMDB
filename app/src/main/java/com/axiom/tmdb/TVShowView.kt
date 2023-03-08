@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
 import android.view.View
-import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.ImageView
@@ -12,14 +11,15 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.marginTop
+import com.axiomc.core.deprecated.model.Data.textColor
 
 class TVShowView(context: Context) : ScrollView(context) {
-    var constLayout = ConstraintLayout(context)
+    var linearLayout = LinearLayout(context)
     var name = TextView(context)
     var backdrop = TextView(context)
     var backdropImage = ImageView(context)
-    var createdBy = ConstraintLayout(context)
+    var createdByTitle=TextView(context)
+    var createdBy=LinearLayout(context)
     var episodeRunTime = TextView(context)
     var firstAirDate = TextView(context)
     var genres = TextView(context)
@@ -41,6 +41,7 @@ class TVShowView(context: Context) : ScrollView(context) {
     var lastEpisodeVoteAverage = TextView(context)
     var lastEpisodeVoteCount = TextView(context)
     var nextEpisodeToAir = TextView(context)
+    var networksText=TextView(context)
     var networks=ConstraintLayout(context)
     var numberOfEpisodes = TextView(context)
     var numberOfSeasons = TextView(context)
@@ -50,7 +51,8 @@ class TVShowView(context: Context) : ScrollView(context) {
     var overview = TextView(context)
     var popularity = TextView(context)
     var poster = ImageView(context)
-    var productionCompanies = ConstraintLayout(context)
+    var productionCompanies = LinearLayout(context)
+    var productionCompaniesTitle=TextView(context)
     var productionCountries = TextView(context)
     var seasons= ConstraintLayout(context)
     var spokenLanguages = TextView(context)
@@ -66,7 +68,8 @@ class TVShowView(context: Context) : ScrollView(context) {
         layoutParams = LayoutParams(MATCH_PARENT,MATCH_PARENT).apply {
             id = View.generateViewId()
         }
-        constLayout.apply {
+        linearLayout.apply {
+            orientation=LinearLayout.VERTICAL
             layoutParams = LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
                 id = View.generateViewId()
             }
@@ -77,345 +80,218 @@ class TVShowView(context: Context) : ScrollView(context) {
             textSize = 20F
             typeface = Typeface.DEFAULT_BOLD
             name.id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                topToTop = constLayout.id
-                topMargin=16
-                startToStart = constLayout.id
-                endToEnd = constLayout.id
-            }
+         
         }
-        constLayout.addView(name)
+        linearLayout.addView(name)
 
         backdrop.apply {
             setTextColor(Color.BLACK)
             typeface = Typeface.DEFAULT_BOLD
             backdrop.id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                topToBottom = name.id
-                topMargin=16
-                startToStart = constLayout.id
-                endToEnd = constLayout.id
-            }
+
         }
-    constLayout.addView(backdrop)
+    linearLayout.addView(backdrop)
         backdropImage.apply {
             backdropImage.id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                topToBottom = backdrop.id
-                topMargin=16
-                startToStart = constLayout.id
-                endToEnd = constLayout.id
             }
-        }
-        constLayout.addView(backdropImage)
 
-        createdBy.apply {
-            createdBy.id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                topToBottom = backdropImage.id
-                topMargin=16
-                startToStart = constLayout.id
-                endToEnd = constLayout.id
-            }
+        linearLayout.addView(backdropImage)
+
+        createdByTitle.apply {
+            setTextColor(Color.BLACK)
+            createdByTitle.id=View.generateViewId()
+            createdByTitle.text="Created by"
         }
-        constLayout.addView(createdBy)
+        createdBy.addView(createdByTitle)
+        createdBy.apply {
+            orientation=LinearLayout.VERTICAL
+            createdBy.id = View.generateViewId()
+        }
+        linearLayout.addView(createdBy)
 
         genres.apply {
             setTextColor(Color.BLACK)
             genres.id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                topToBottom = createdBy.id
-                topMargin=16
-                startToStart = constLayout.id
-                endToEnd = constLayout.id
-            }
+
         }
-        constLayout.addView(genres)
+        linearLayout.addView(genres)
 
         homepage.apply {
             setTextColor(Color.BLACK)
             homepage.id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                topToBottom = genres.id
-                topMargin=16
-                startToStart = constLayout.id
-                endToEnd = constLayout.id
-            }
+
         }
-        constLayout.addView(homepage)
+        linearLayout.addView(homepage)
 
         tvShowID.apply {
             setTextColor(Color.BLACK)
             tvShowID.id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                topToBottom = homepage.id
-                topMargin=16
-                startToStart = constLayout.id
-                endToEnd = constLayout.id
-            }
+
         }
-        constLayout.addView(tvShowID)
+        linearLayout.addView(tvShowID)
 
         inProduction.apply {
             setTextColor(Color.BLACK)
             inProduction.id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                topToBottom = tvShowID.id
-                topMargin=16
-                startToStart = constLayout.id
-                endToEnd = constLayout.id
-            }
+
         }
-        constLayout.addView(inProduction)
+        linearLayout.addView(inProduction)
 
 
         languages.apply {
             setTextColor(Color.BLACK)
             languages.id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                topToBottom = inProduction.id
-                topMargin=16
-                startToStart = constLayout.id
-                endToEnd = constLayout.id
-            }
+
         }
-        constLayout.addView(languages)
+        linearLayout.addView(languages)
 
         lastEpisodeToAir.apply {
             lastEpisodeToAir.id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                topToBottom = languages.id
-                topMargin=16
-                startToStart = constLayout.id
-                endToEnd = constLayout.id
-            }
+
         }
-        constLayout.addView(lastEpisodeToAir)
+        linearLayout.addView(lastEpisodeToAir)
 
         nextEpisodeToAir.apply {
             setTextColor(Color.BLACK)
             nextEpisodeToAir.id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                topToBottom = lastEpisodeToAir.id
-                topMargin=16
-                startToStart = constLayout.id
-                endToEnd = constLayout.id
-            }
+
         }
-        constLayout.addView(nextEpisodeToAir)
+        linearLayout.addView(nextEpisodeToAir)
+
+        networksText.apply {
+            setTextColor(Color.BLACK)
+            typeface= Typeface.DEFAULT_BOLD
+            networksText.id = View.generateViewId()
+
+        }
+        linearLayout.addView(networksText)
 
         networks.apply {
             networks.id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                topToBottom = nextEpisodeToAir.id
-                topMargin=16
-                startToStart = constLayout.id
-                endToEnd = constLayout.id
-            }
+
         }
-        constLayout.addView(networks)
+        linearLayout.addView(networks)
 
         numberOfEpisodes.apply {
             setTextColor(Color.BLACK)
             numberOfEpisodes.id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                topToBottom = networks.id
-                topMargin=16
-                startToStart = constLayout.id
-                endToEnd = constLayout.id
-            }
+
         }
-        constLayout.addView(numberOfEpisodes)
+        linearLayout.addView(numberOfEpisodes)
 
         numberOfSeasons.apply {
             setTextColor(Color.BLACK)
-            numberOfSeasons.id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                topToBottom = numberOfEpisodes.id
-                topMargin=16
-                startToStart = constLayout.id
-                endToEnd = constLayout.id
-            }
+
         }
-        constLayout.addView(numberOfSeasons)
+        linearLayout.addView(numberOfSeasons)
 
         originCountry.apply {
             setTextColor(Color.BLACK)
             originCountry.id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                topToBottom = numberOfSeasons.id
-                topMargin=16
-                startToStart = constLayout.id
-                endToEnd = constLayout.id
-            }
+
         }
-        constLayout.addView(originCountry)
+        linearLayout.addView(originCountry)
 
         originalLanguage.apply {
             setTextColor(Color.BLACK)
             originalLanguage.id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                topToBottom = originCountry.id
-                topMargin=16
-                startToStart = constLayout.id
-                endToEnd = constLayout.id
-            }
+
         }
-        constLayout.addView(originalLanguage)
+        linearLayout.addView(originalLanguage)
 
         originalName.apply {
             setTextColor(Color.BLACK)
             originalName.id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                topToBottom = originalLanguage.id
-                topMargin=16
-                startToStart = constLayout.id
-                endToEnd = constLayout.id
-            }
+
         }
-        constLayout.addView(originalName)
+        linearLayout.addView(originalName)
 
         overview.apply {
             setTextColor(Color.BLACK)
             overview.id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                topToBottom = originalName.id
-                topMargin=16
-                startToStart = constLayout.id
-                endToEnd = constLayout.id
-            }
+
         }
-        constLayout.addView(overview)
+        linearLayout.addView(overview)
 
         popularity.apply {
             setTextColor(Color.BLACK)
             popularity.id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                topToBottom = overview.id
-                topMargin=16
-                startToStart = constLayout.id
-                endToEnd = constLayout.id
-            }
+
         }
-        constLayout.addView(popularity)
+        linearLayout.addView(popularity)
 
         poster.apply {
             popularity.id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                topToBottom = popularity.id
-                topMargin=16
-                startToStart = constLayout.id
-                endToEnd = constLayout.id
-            }
+
         }
-        constLayout.addView(poster)
+        linearLayout.addView(poster)
 
         productionCompanies.apply {
             productionCompanies.id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                topToBottom = poster.id
-                topMargin=16
-                startToStart = constLayout.id
-                endToEnd = constLayout.id
-            }
+
         }
-        constLayout.addView(productionCompanies)
+        productionCompaniesTitle.apply {
+            setTextColor(Color.BLACK)
+            productionCompanies.id = View.generateViewId()
+
+        }
+        productionCompanies.addView(productionCompaniesTitle)
 
         productionCountries.apply {
             setTextColor(Color.BLACK)
             productionCountries.id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                topToBottom = productionCompanies.id
-                topMargin=16
-                startToStart = constLayout.id
-                endToEnd = constLayout.id
-            }
+
         }
-        constLayout.addView(productionCountries)
+        linearLayout.addView(productionCountries)
 
         seasons.apply {
             seasons.id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                topToBottom = productionCountries.id
-                topMargin=16
-                startToStart = constLayout.id
-                endToEnd = constLayout.id
-            }
+
         }
-        constLayout.addView(seasons)
+        linearLayout.addView(seasons)
 
         spokenLanguages.apply {
             setTextColor(Color.BLACK)
             spokenLanguages.id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                topToBottom = seasons.id
-                topMargin=16
-                startToStart = constLayout.id
-                endToEnd = constLayout.id
-            }
+
         }
-        constLayout.addView(spokenLanguages)
+        linearLayout.addView(spokenLanguages)
 
         status.apply {
             setTextColor(Color.BLACK)
             status.id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                topToBottom = spokenLanguages.id
-                topMargin=16
-                startToStart = constLayout.id
-                endToEnd = constLayout.id
-            }
+
         }
-        constLayout.addView(status)
+        linearLayout.addView(status)
 
         tagline.apply {
             setTextColor(Color.BLACK)
             tagline.id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                topToBottom = status.id
-                topMargin=16
-                startToStart = constLayout.id
-                endToEnd = constLayout.id
-            }
+
         }
-        constLayout.addView(tagline)
+        linearLayout.addView(tagline)
 
         type.apply {
             setTextColor(Color.BLACK)
             type.id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                topToBottom = tagline.id
-                topMargin=16
-                startToStart = constLayout.id
-                endToEnd = constLayout.id
-            }
+
         }
-        constLayout.addView(type)
+        linearLayout.addView(type)
 
         voteAverage.apply {
             setTextColor(Color.BLACK)
             voteAverage.id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                topToBottom = type.id
-                topMargin=16
-                startToStart = constLayout.id
-                endToEnd = constLayout.id
-            }
+
         }
-        constLayout.addView(voteAverage)
+        linearLayout.addView(voteAverage)
 
         voteCount.apply {
             setTextColor(Color.BLACK)
             voteCount.id = View.generateViewId()
-            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                topToBottom = voteAverage.id
-                topMargin=16
-                startToStart = constLayout.id
-                endToEnd = constLayout.id
-            }
+
         }
-        constLayout.addView(voteCount)
-        addView(constLayout)
+        linearLayout.addView(voteCount)
+        addView(linearLayout)
 
     }
 

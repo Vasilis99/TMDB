@@ -12,6 +12,7 @@ import android.widget.ScrollView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 
+
 class MovieView(context: Context) : ScrollView(context) {
     var constLayout = ConstraintLayout(context)
     var title = TextView(context)

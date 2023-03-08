@@ -16,9 +16,10 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 
         override fun createFragment(position: Int): Fragment {
             var fragment:Fragment = when(position){
-                1 -> TopRatedTVShowsFragment()
-                2 -> TopRatedMoviesFragment()
+                0 -> TopRatedTVShowsFragment()
+                1 -> TopRatedMoviesFragment()
                 else -> SearchMovieTVShowFragment()
+
             }
             return fragment
         }

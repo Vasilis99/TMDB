@@ -23,9 +23,9 @@ class MyFragment : Fragment() {
                 tabLayout, viewPager
             ) { tab, position ->
                 when (position) {
-                    0 -> tab.text = "Search Movies-TV Shows"
-                    1 -> tab.text = "Top Rated Shows"
-                    2 -> tab.text = "Top Rated Movies"
+                    0 -> tab.text = "Top Rated Shows"
+                    1 -> tab.text = "Top Rated Movies"
+                    2 -> tab.text = "Search Movies-TV Shows"
                 }
             }.attach()
         }
