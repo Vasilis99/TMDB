@@ -1,7 +1,6 @@
 package com.axiom.tmdb
 
 import android.content.Context
-import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.LinearLayout
 import android.widget.TextView

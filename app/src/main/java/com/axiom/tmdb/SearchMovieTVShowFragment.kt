@@ -37,6 +37,21 @@ class SearchMovieTVShowFragment : Fragment() {
         return SearchMovieTVShowView(inflater.context)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        (view as SearchMovieTVShowView).tvShowButton.setOnClickListener {
+            var tvShowFragment = SearchedTVShowsFragment.newInstance(view.tvShowInputBox.text.toString())
+
+            (activity as? MainActivity)?.myLayout?.id?.let { it1 ->
+
+                var transaction =
+                    activity?.supportFragmentManager?.beginTransaction()
+                transaction?.replace(it1, tvShowFragment)?.commit()
+                transaction?.addToBackStack(null)
+            }
+        }
+    }
+
     companion object {
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
