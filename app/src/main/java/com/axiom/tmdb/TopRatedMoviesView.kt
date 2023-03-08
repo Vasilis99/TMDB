@@ -18,17 +18,17 @@ class TopRatedMoviesView(context: Context) : LinearLayout(context) {
         text = "TopRatedMoviesView"
         textSize = 30F
     }
-    public val topRatedMoviesRecyclerView = RecyclerView(context)
+    public val moviesRecyclerView = RecyclerView(context)
 
 
     init {
         orientation = VERTICAL
 
         addView(label)
-        topRatedMoviesRecyclerView.layoutParams =
+        moviesRecyclerView.layoutParams =
             LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
         //topRatedMoviesRecyclerView.background= ColorDrawable(Color.BLUE)
-        addView(topRatedMoviesRecyclerView)
+        addView(moviesRecyclerView)
         layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
 
     }

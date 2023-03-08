@@ -20,17 +20,17 @@ class TopRatedTVShowsView(context: Context) : LinearLayout(context) {
         text = "TopTVShowsView"
         textSize = 30F
     }
-    public val topRatedTVShowsRecyclerView = RecyclerView(context)
+    public val tvShowsRecyclerView = RecyclerView(context)
 
 
     init {
         orientation = VERTICAL
 
         addView(label)
-        topRatedTVShowsRecyclerView.layoutParams =
+        tvShowsRecyclerView.layoutParams =
             LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
 
-        addView(topRatedTVShowsRecyclerView)
+        addView(tvShowsRecyclerView)
         layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
 
     }

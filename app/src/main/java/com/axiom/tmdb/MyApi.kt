@@ -6,12 +6,13 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 
 interface MyApi {
 
     @GET("movie/top_rated?api_key=287f6ab6616e3724955e2b4c6841ea63")
-    suspend fun getTopRatedMovies(): Response<TMDB.TopRatedMovies>
+    suspend fun getTopRatedMovies(): Response<TMDB.Movies>
 
     @GET("authentication/token/new?api_key=287f6ab6616e3724955e2b4c6841ea63")
     suspend fun getToken(): Response<TMDB.Token>
@@ -23,12 +24,15 @@ interface MyApi {
     fun getMovieDetails(@Path("id") movieID:Int): Call<TMDB.MovieDetails>
 
     @GET("tv/top_rated?api_key=287f6ab6616e3724955e2b4c6841ea63")
-    suspend fun getTopTVShows(): Response<TMDB.TopRatedTVShows>
+    suspend fun getTopTVShows(): Response<TMDB.TVShows>
 
     @GET("{id}?api_key=287f6ab6616e3724955e2b4c6841ea63")
     fun getTVShowDetails(@Path("id") tvShowID:Int): Call<TMDB.TVShowDetails>
 
     @GET("movie?api_key=287f6ab6616e3724955e2b4c6841ea63&query={movie}")
-    fun searchMovie(@Path("movie") movie:String): Call<TMDB.MovieBasic>
+    fun searchMovie(@Path("movie") movie:String): Call<TMDB.Movies>
+
+    @GET("tv")
+    fun searchTVShow(@Query("api_key") apiKey:String,@Query("query") tvShow:String): Call<TMDB.TVShows>
 
 }

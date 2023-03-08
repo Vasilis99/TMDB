@@ -27,8 +27,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class TopRatedMoviesFragment : Fragment() {
 
-    private lateinit var moviesDetails: TMDB.TopRatedMovies
-    lateinit var topRatedMoviesRecyclerView: RecyclerView
+    private lateinit var moviesDetails: TMDB.Movies
 
     object RetrofitHelper {
         private const val baseUrl = "https://api.themoviedb.org/3/"
@@ -48,9 +47,9 @@ class TopRatedMoviesFragment : Fragment() {
             lifecycleScope.launchWhenResumed {
                 val response1 = myApi.getTopRatedMovies()
                 moviesDetails = response1.body()!!
-                topRatedMoviesRecyclerView.layoutManager = LinearLayoutManager(context)
-                topRatedMoviesRecyclerView.adapter =
-                    TopRatedMoviesAdapter(moviesDetails) { movieID ->
+                moviesRecyclerView.layoutManager = LinearLayoutManager(context)
+                moviesRecyclerView.adapter =
+                    MoviesAdapter(moviesDetails) { movieID ->
                         var movieFragment: MovieFragment
                         for (x in moviesDetails.results) {
                             if (x.id == movieID) {

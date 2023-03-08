@@ -10,7 +10,7 @@ class TMDB{
         var success:Boolean,
         var session_id:String
     )
-    data class TopRatedMovies(
+    data class Movies(
         var page:Int,
         var results: List<MovieBasic>,
         var total_pages:Int,
@@ -85,7 +85,7 @@ class TMDB{
         var id:Int,
         var name:String
     )
-    data class TopRatedTVShows(
+    data class TVShows(
         var page:Int,
         var results: List<TVShowBasic>,
         var total_pages:Int,
