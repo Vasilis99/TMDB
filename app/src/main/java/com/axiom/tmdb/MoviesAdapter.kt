@@ -7,18 +7,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class MoviesAdapter(var moviesDetails: TMDB.Movies,val clickListener: (Int)->Unit) : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
+class MoviesAdapter(var moviesDetails: TMDB.Movies, val clickListener: (Int) -> Unit) :
+    RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
 
 
-    class MoviesViewHolder(val view:TextView):RecyclerView.ViewHolder(view)
+    class MoviesViewHolder(val view: RecyclerViewItemView) : RecyclerView.ViewHolder(view)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder {
-        var title= TextView(parent.context).apply{
-            textSize= 20F
-            setTextColor(Color.BLACK)
-        }
-        return MoviesViewHolder(title)
-
+        return MoviesViewHolder(RecyclerViewItemView(parent.context))
     }
 
 
@@ -28,9 +24,10 @@ class MoviesAdapter(var moviesDetails: TMDB.Movies,val clickListener: (Int)->Uni
     }
 
     override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) {
-        holder.view.text= Html.fromHtml("<p><b>${position+1}</b>${" "+moviesDetails.results[position].title}</p>",1)
+        "${(position + 1)} ".also { holder.view.pos.text = it }
+        holder.view.text.text = moviesDetails.results[position].title
         holder.itemView.setOnClickListener {
-           clickListener(moviesDetails.results[position].id)
+            clickListener(moviesDetails.results[position].id)
             println("Title pressed: " + (moviesDetails.results[position].title))
         }
 

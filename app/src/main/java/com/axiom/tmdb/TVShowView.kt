@@ -29,7 +29,7 @@ class TVShowView(context: Context) : ScrollView(context) {
     var languages = TextView(context)
     var lastAirDate = TextView(context)
     var lastEpisodeToAirTitle=TextView(context)
-    var lastEpisodeToAir=ConstraintLayout(context)
+    var lastEpisodeToAir=LinearLayout(context)
     var airDate=TextView(context)
     var episodeNumber= TextView(context)
     var episodeID= TextView(context)
@@ -150,6 +150,13 @@ class TVShowView(context: Context) : ScrollView(context) {
 
         }
         linearLayout.addView(lastEpisodeToAir)
+
+        lastEpisodeToAirTitle.apply {
+            lastEpisodeToAirTitle.id = View.generateViewId()
+
+        }
+        lastEpisodeToAir.addView(lastEpisodeToAirTitle)
+
 
         nextEpisodeToAir.apply {
             setTextColor(Color.BLACK)

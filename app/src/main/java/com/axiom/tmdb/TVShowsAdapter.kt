@@ -6,10 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 class TVShowsAdapter(var tvShowsDetails: TMDB.TVShows,val clickListener: (Int)->Unit) : RecyclerView.Adapter<TVShowsAdapter.TVShowsViewHolder>() {
 
 
-    class TVShowsViewHolder(val view:TopRatedMoviesItemView):RecyclerView.ViewHolder(view)
+    class TVShowsViewHolder(val view:RecyclerViewItemView):RecyclerView.ViewHolder(view)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TVShowsViewHolder {
-        return TVShowsViewHolder(TopRatedMoviesItemView(parent.context))
+        return TVShowsViewHolder(RecyclerViewItemView(parent.context))
 
     }
 
@@ -20,7 +20,7 @@ class TVShowsAdapter(var tvShowsDetails: TMDB.TVShows,val clickListener: (Int)->
 
     override fun onBindViewHolder(holder: TVShowsViewHolder, position: Int) {
         println(position)
-        holder.view.pos.text= "$position "
+        "${(position + 1)} ".also { holder.view.pos.text = it }
         holder.view.text.text=tvShowsDetails.results[position].name
         holder.itemView.setOnClickListener {
             clickListener(tvShowsDetails.results[position].id)

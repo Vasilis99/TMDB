@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class SearchedTVShowsFragment:Fragment() {
     private lateinit var tvShows: TMDB.TVShows
     //lateinit var topRatedMoviesRecyclerView: RecyclerView
-    var tvShow:String=""
+    var searchTVShow:String=""
     object RetrofitHelper {
         private const val baseUrl = "https://api.themoviedb.org/3/search/"
         fun getInstance(): Retrofit {
@@ -31,7 +31,7 @@ class SearchedTVShowsFragment:Fragment() {
         super.onCreate(savedInstanceState)
         arguments.let{
             if (it != null) {
-                tvShow=it.getString("tvShow")!!
+                searchTVShow=it.getString("tvShow")!!
             }
         }
     }
@@ -42,14 +42,14 @@ class SearchedTVShowsFragment:Fragment() {
         SearchedTVShowView(it).apply {
             val myApi = SearchedTVShowsFragment.RetrofitHelper.getInstance().create(MyApi::class.java)
             lifecycleScope.launchWhenResumed {
-                var call= myApi.searchTVShow("287f6ab6616e3724955e2b4c6841ea63",tvShow)
+                var call= myApi.searchTVShow("287f6ab6616e3724955e2b4c6841ea63",searchTVShow)
                 call.enqueue(object : Callback<TMDB.TVShows> {
                     override fun onResponse(
                         call: Call<TMDB.TVShows>,
                         response: Response<TMDB.TVShows>
                     ) {
                         tvShows= response.body()!!
-                        println(tvShows.results.size.toString()+"Ti ginete dame"+tvShow)
+                        println(tvShows.results.size.toString()+"Ti ginete dame"+searchTVShow)
                         recyclerView.layoutManager = LinearLayoutManager(context)
                         recyclerView.adapter =
                             TVShowsAdapter(tvShows) { tvShowID ->

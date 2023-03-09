@@ -128,7 +128,7 @@ class TVShowFragment : Fragment() {
 
                             createdBy.addView(profileImage)
                         }
-                        if(tvShowDetails.created_by.isEmpty()){
+                        if (tvShowDetails.created_by.isEmpty()) {
                             var unknown = TextView(context)
                             unknown.apply {
                                 name.id = View.generateViewId()
@@ -167,61 +167,66 @@ class TVShowFragment : Fragment() {
                         }
                         languages.text = Html.fromHtml("<p><b>Languages</b><br>${lang}</p>", 1)
                         lastEpisodeToAirTitle.text = "Last episode to Air"
-                        airDate.text = Html.fromHtml(
-                            "<p><b>Air Date</b><br>${tvShowDetails.last_episode_to_air.air_date}</p>",
-                            1
-                        )
-                        episodeNumber.text = Html.fromHtml(
-                            "<p><b>Episode number</b><br>${tvShowDetails.last_episode_to_air.episode_number}</p>",
-                            1
-                        )
-                        episodeName.text = Html.fromHtml(
-                            "<p><b>Episode name</b><br>${tvShowDetails.last_episode_to_air.name}</p>",
-                            1
-                        )
-                        episodeOverview.text = Html.fromHtml(
-                            "<p><b>Episode overview</b><br>${tvShowDetails.last_episode_to_air.overview}</p>",
-                            1
-                        )
-                        productionCode.text = Html.fromHtml(
-                            "<p><b>Production code</b><br>${tvShowDetails.last_episode_to_air.production_code}</p>",
-                            1
-                        )
-                        seasonNumber.text = Html.fromHtml(
-                            "<p><b>Season number</b><br>${tvShowDetails.last_episode_to_air.season_number}</p>",
-                            1
-                        )
-                        still.load("https://image.tmdb.org/t/p/original" + tvShowDetails.last_episode_to_air.still_path)
-                        lastEpisodeVoteAverage.text = Html.fromHtml(
-                            "<p><b>Vote average</b><br>${tvShowDetails.last_episode_to_air.vote_average}</p>",
-                            1
-                        )
-                        lastEpisodeVoteCount.text = Html.fromHtml(
-                            "<p><b>Vote count</b><br>${tvShowDetails.last_episode_to_air.vote_count}</p>",
-                            1
-                        )
+                        if (tvShowDetails.last_episode_to_air != null) {
+                            airDate.text = Html.fromHtml(
+                                "<p><b>Air Date</b><br>${tvShowDetails.last_episode_to_air.air_date}</p>",
+                                1
+                            )
+                            episodeNumber.text = Html.fromHtml(
+                                "<p><b>Episode number</b><br>${tvShowDetails.last_episode_to_air.episode_number}</p>",
+                                1
+                            )
+                            episodeName.text = Html.fromHtml(
+                                "<p><b>Episode name</b><br>${tvShowDetails.last_episode_to_air.name}</p>",
+                                1
+                            )
+                            episodeOverview.text = Html.fromHtml(
+                                "<p><b>Episode overview</b><br>${tvShowDetails.last_episode_to_air.overview}</p>",
+                                1
+                            )
+                            productionCode.text = Html.fromHtml(
+                                "<p><b>Production code</b><br>${tvShowDetails.last_episode_to_air.production_code}</p>",
+                                1
+                            )
+                            seasonNumber.text = Html.fromHtml(
+                                "<p><b>Season number</b><br>${tvShowDetails.last_episode_to_air.season_number}</p>",
+                                1
+                            )
+                            still.load("https://image.tmdb.org/t/p/original" + tvShowDetails.last_episode_to_air.still_path)
+                            lastEpisodeVoteAverage.text = Html.fromHtml(
+                                "<p><b>Vote average</b><br>${tvShowDetails.last_episode_to_air.vote_average}</p>",
+                                1
+                            )
+                            lastEpisodeVoteCount.text = Html.fromHtml(
+                                "<p><b>Vote count</b><br>${tvShowDetails.last_episode_to_air.vote_count}</p>",
+                                1
+                            )
+                        }
+                        else{
+                            airDate.text= "Unknown"
+                        }
                         nextEpisodeToAir.text =
                             Html.fromHtml("<p><b>Next episode to air</b><br>${"Unknown"}</p>", 1)
 
                         networksText.text = "Networks\n"
 
-                        for(x in tvShowDetails.networks){
-                            var networkName=TextView(context)
+                        for (x in tvShowDetails.networks) {
+                            var networkName = TextView(context)
                             networkName.apply {
                                 setTextColor((Color.BLACK))
-                                text= Html.fromHtml("<p><b>Name</b><br>${x.name}</p>", 1)
+                                text = Html.fromHtml("<p><b>Name</b><br>${x.name}</p>", 1)
                             }
-                            var logo=ImageView(context)
+                            var logo = ImageView(context)
                             still.load("https://image.tmdb.org/t/p/original" + x.logo_path)
 
-                            var origCountry=TextView(context)
+                            var origCountry = TextView(context)
 
                         }
-                        if(tvShowDetails.networks.isEmpty()){
-                            var temp=TextView(context)
+                        if (tvShowDetails.networks.isEmpty()) {
+                            var temp = TextView(context)
                             temp.apply {
                                 setTextColor(Color.BLACK)
-                                text="Unknown"
+                                text = "Unknown"
                             }
                         }
                         numberOfEpisodes.text = Html.fromHtml(
@@ -255,37 +260,37 @@ class TVShowFragment : Fragment() {
 
                         poster.load("https://image.tmdb.org/t/p/original" + tvShowDetails.poster_path)
 
-                        productionCompaniesTitle.text="Production Companies"
+                        productionCompaniesTitle.text = "Production Companies"
 
-                        for(x in tvShowDetails.production_companies){
-                            var name=TextView(context)
-                            name.text=x.name
+                        for (x in tvShowDetails.production_companies) {
+                            var name = TextView(context)
+                            name.text = x.name
                             productionCompanies.addView(name)
-                            var logoText=TextView(context)
+                            var logoText = TextView(context)
                             logoText.setTextColor(Color.BLACK)
-                            logoText.text="Logo"
+                            logoText.text = "Logo"
                             productionCompanies.addView(logoText)
-                            var logo=ImageView(context)
+                            var logo = ImageView(context)
                             logo.load("https://image.tmdb.org/t/p/original" + x.logo_path)
                             productionCompanies.addView(logo)
-                            var originCountry=TextView(context)
+                            var originCountry = TextView(context)
                             originCountry.text = Html.fromHtml(
                                 "<p><b>Origin country</b><br>${x.origin_country}</p>",
                                 1
                             )
 
                         }
-                        var prodCountries=""
-                        for(x in tvShowDetails.production_countries) {
-                            prodCountries+=x.name+"<br>"
+                        var prodCountries = ""
+                        for (x in tvShowDetails.production_countries) {
+                            prodCountries += x.name + "<br>"
                         }
                         productionCountries.text = Html.fromHtml(
                             "<p><b>Production countries</b><br>${prodCountries}</p>",
                             1
                         )
-                        var spokenLang=""
-                        for(x in tvShowDetails.spoken_languages) {
-                            spokenLanguages.text=x.english_name+"<br>"
+                        var spokenLang = ""
+                        for (x in tvShowDetails.spoken_languages) {
+                            spokenLanguages.text = x.english_name + "<br>"
                         }
                         spokenLanguages.text = Html.fromHtml(
                             "<p><b>Spoken languages</b><br>${spokenLang}</p>",

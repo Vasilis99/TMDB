@@ -39,15 +39,30 @@ class SearchMovieTVShowFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (view as SearchMovieTVShowView).tvShowButton.setOnClickListener {
-            var tvShowFragment = SearchedTVShowsFragment.newInstance(view.tvShowInputBox.text.toString())
+        (view as SearchMovieTVShowView).apply {
+            tvShowButton.setOnClickListener {
+                var searchedTVShowFragment =
+                    SearchedTVShowsFragment.newInstance(view.tvShowInputBox.text.toString())
 
-            (activity as? MainActivity)?.myLayout?.id?.let { it1 ->
+                (activity as? MainActivity)?.myLayout?.id?.let { it1 ->
 
-                var transaction =
-                    activity?.supportFragmentManager?.beginTransaction()
-                transaction?.replace(it1, tvShowFragment)?.commit()
-                transaction?.addToBackStack(null)
+                    var transaction =
+                        activity?.supportFragmentManager?.beginTransaction()
+                    transaction?.replace(it1, searchedTVShowFragment)?.commit()
+                    transaction?.addToBackStack(null)
+                }
+            }
+            movieButton.setOnClickListener {
+                var searchedMovieFragment =
+                    SearchedMoviesFragment.newInstance(view.movieInputBox.text.toString())
+
+                (activity as? MainActivity)?.myLayout?.id?.let { it1 ->
+
+                    var transaction =
+                        activity?.supportFragmentManager?.beginTransaction()
+                    transaction?.replace(it1, searchedMovieFragment)?.commit()
+                    transaction?.addToBackStack(null)
+                }
             }
         }
     }

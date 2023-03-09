@@ -7,7 +7,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 
-class TopRatedMoviesItemView(context: Context) : LinearLayout(context) {
+class RecyclerViewItemView(context: Context) : LinearLayout(context) {
 
     var pos= TextView(context).apply {
         textSize= 20F
