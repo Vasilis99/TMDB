@@ -6,6 +6,7 @@ import android.graphics.Typeface
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
@@ -46,7 +47,7 @@ class MovieView(context: Context) : ScrollView(context) {
     var video = TextView(context)
     var voteAverage = TextView(context)
     var voteCount = TextView(context)
-
+    var reviewsButton=Button(context)
 
     init {
         layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
@@ -311,6 +312,15 @@ class MovieView(context: Context) : ScrollView(context) {
                 endToEnd = constLayout.id
             }
         }
+        reviewsButton.apply {
+            text="Reviews"
+            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
+                id = View.generateViewId()
+                topToBottom = voteCount.id
+                startToStart = constLayout.id
+                endToEnd = constLayout.id
+            }
+        }
         constLayout.addView(title)
         constLayout.addView(adult)
         constLayout.addView(backdrop)
@@ -338,6 +348,7 @@ class MovieView(context: Context) : ScrollView(context) {
         constLayout.addView(video)
         constLayout.addView(voteAverage)
         constLayout.addView(voteCount)
+        constLayout.addView(reviewsButton)
         addView(constLayout)
     }
 }

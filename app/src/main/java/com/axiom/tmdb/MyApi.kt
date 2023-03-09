@@ -35,4 +35,7 @@ interface MyApi {
     @GET("tv")
     fun searchTVShow(@Query("api_key") apiKey:String,@Query("query") tvShow:String): Call<TMDB.TVShows>
 
+    @GET("{movieID}/reviews?api_key=287f6ab6616e3724955e2b4c6841ea63")
+    fun getMovieReviews(@Path("movieID") movieID:Int): Call<TMDB.MovieReviews>
+
 }

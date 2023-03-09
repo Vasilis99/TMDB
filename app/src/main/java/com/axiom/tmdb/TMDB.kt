@@ -1,5 +1,6 @@
 package com.axiom.tmdb
 
+import android.media.Rating
 import java.util.Date
 
 class TMDB{
@@ -173,5 +174,27 @@ class TMDB{
         var overview: String,
         var poster_path: String,
         var season_number: Int
+    )
+    data class MovieReviews(
+        var id:Int,
+        var page:Int,
+        var results:List<MovieReview>,
+        var total_pages: Int,
+        var total_results: Int
+    )
+    data class MovieReview(
+        var author:String,
+        var author_details: AuthorDetails,
+        var content:String,
+        var created_at:String,
+        var id:String,
+        var updated_at:String,
+        var url:String
+    )
+    data class AuthorDetails(
+        var name:String,
+        var username:String,
+        var avatar:String,
+        var rating: Int
     )
 }

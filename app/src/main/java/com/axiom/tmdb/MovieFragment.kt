@@ -23,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class MovieFragment : Fragment() {
     private val vm by viewModels<MovieViewModel>()
-    private var movieID: Int = 0
+    private var mID: Int = 0
     private lateinit var movieDetails:TMDB.MovieDetails
     object RetrofitHelper {
         private const val baseUrl = "https://api.themoviedb.org/3/movie/"
@@ -37,7 +37,7 @@ class MovieFragment : Fragment() {
         super.onCreate(savedInstanceState)
         val bundle = arguments
         if (bundle != null && bundle.containsKey("movieID")) {
-            movieID = bundle.getInt("movieID")
+            mID = bundle.getInt("movieID")
         } else if (bundle == null) {
             Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
         }
@@ -52,7 +52,7 @@ class MovieFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         lifecycleScope.launchWhenResumed {
             val myApi = MovieFragment.RetrofitHelper.getInstance().create(MyApi::class.java)
-            var call= myApi.getMovieDetails(movieID)
+            var call= myApi.getMovieDetails(mID)
 
             call.enqueue(object : Callback<TMDB.MovieDetails> {
                 override fun onResponse(call: Call<TMDB.MovieDetails>, response: Response<TMDB.MovieDetails>) {
@@ -175,6 +175,18 @@ class MovieFragment : Fragment() {
                         video.text=Html.fromHtml("<p><b>Video</b><br>$videoText</p>",1)
                         voteAverage.text=Html.fromHtml("<p><b>Vote average</b><br>${movieDetails.vote_average}</p>",1)
                         voteCount.text=Html.fromHtml("<p><b>Vote count</b><br>${movieDetails.vote_count}</p>",1)
+
+                        reviewsButton.setOnClickListener {
+                            var movieReviewsFragment = MovieReviewsFragment.newInstance(mID,movieDetails.title)
+
+                            (activity as? MainActivity)?.myLayout?.id?.let { it1 ->
+
+                                var transaction =
+                                    activity?.supportFragmentManager?.beginTransaction()
+                                transaction?.replace(it1, movieReviewsFragment)?.commit()
+                                transaction?.addToBackStack(null)
+                            }
+                        }
                     }
 
 
