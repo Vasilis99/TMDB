@@ -6,14 +6,13 @@ import android.graphics.Typeface
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 
 
-class MovieReviewsView(context: Context): ScrollView(context)  {
+class ReviewsView(context: Context): ScrollView(context)  {
     class ReviewView(cont:Context):LinearLayout(cont){
         var author=TextView(cont)
         var content=TextView(cont)

@@ -1,5 +1,6 @@
 package com.axiom.tmdb
 
+import android.graphics.Color
 import android.os.Bundle
 import android.text.Html
 import android.view.LayoutInflater
@@ -8,10 +9,9 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.LinearLayout
-import androidx.constraintlayout.widget.ConstraintLayout
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,7 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class MovieReviewsFragment : Fragment() {
     var movieID = 0
     var movieTitle=""
-    lateinit var movieReviews: TMDB.MovieReviews
+    lateinit var movieReviews: TMDB.Reviews
 
     object RetrofitHelper {
         private const val baseUrl = "https://api.themoviedb.org/3/movie/"
@@ -46,22 +46,22 @@ class MovieReviewsFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? = MovieReviewsView(inflater.context).apply {
+    ): View? = ReviewsView(inflater.context).apply {
         val myApi = MovieReviewsFragment.RetrofitHelper.getInstance().create(MyApi::class.java)
         lifecycleScope.launchWhenResumed {
             val call = myApi.getMovieReviews(movieID)
-            call.enqueue(object : Callback<TMDB.MovieReviews> {
+            call.enqueue(object : Callback<TMDB.Reviews> {
                 override fun onResponse(
-                    call: Call<TMDB.MovieReviews>,
-                    response: Response<TMDB.MovieReviews>
+                    call: Call<TMDB.Reviews>,
+                    response: Response<TMDB.Reviews>
                 ) {
                     movieReviews = response.body()!!
                     title.text= "$movieTitle reviews"
                     println(movieTitle)
 
-                    var reviewView:MovieReviewsView.ReviewView
+                    var reviewView:ReviewsView.ReviewView
                     for((i,x) in movieReviews.results.withIndex()){
-                        reviewView=MovieReviewsView.ReviewView(context)
+                        reviewView=ReviewsView.ReviewView(context)
                         reviewView.apply {
                             layoutParams= LinearLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT)
                         }
@@ -75,10 +75,19 @@ class MovieReviewsFragment : Fragment() {
 
                     }
 
+                    if(movieReviews.results.isEmpty()){
+                        var noReviews= TextView(context)
+                        noReviews.apply{
+                            setTextColor(Color.BLACK)
+                            text="No reviews"
+                        }
+                        linLayout.addView(noReviews)
+                    }
+
 
                 }
 
-                override fun onFailure(call: Call<TMDB.MovieReviews>, t: Throwable) {
+                override fun onFailure(call: Call<TMDB.Reviews>, t: Throwable) {
                     println("On failure $t")
                 }
             })

@@ -175,14 +175,14 @@ class TMDB{
         var poster_path: String,
         var season_number: Int
     )
-    data class MovieReviews(
+    data class Reviews(
         var id:Int,
         var page:Int,
-        var results:List<MovieReview>,
+        var results:List<Review>,
         var total_pages: Int,
         var total_results: Int
     )
-    data class MovieReview(
+    data class Review(
         var author:String,
         var author_details: AuthorDetails,
         var content:String,

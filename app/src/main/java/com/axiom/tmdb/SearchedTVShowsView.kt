@@ -10,12 +10,13 @@ class SearchedTVShowView(context: Context):LinearLayout(context) {
     var title=TextView(context)
     var recyclerView=RecyclerView(context)
     init{
+        layoutParams = LayoutParams(MATCH_PARENT,MATCH_PARENT)
         orientation = VERTICAL
 
         addView(title)
         recyclerView.layoutParams =
             LinearLayout.LayoutParams(MATCH_PARENT,MATCH_PARENT)
         addView(recyclerView)
-        layoutParams = LinearLayout.LayoutParams(MATCH_PARENT,MATCH_PARENT)
+
     }
 }

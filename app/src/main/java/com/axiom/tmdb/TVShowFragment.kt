@@ -316,6 +316,17 @@ class TVShowFragment : Fragment() {
                             "<p><b>Vote count</b><br>${tvShowDetails.vote_count}</p>",
                             1
                         )
+                        reviewsButton.setOnClickListener {
+                            var tvShowReviewsFragment = TVShowReviewsFragment.newInstance(tvShowDetails.id,tvShowDetails.name)
+
+                            (activity as? MainActivity)?.myLayout?.id?.let { it1 ->
+
+                                var transaction =
+                                    activity?.supportFragmentManager?.beginTransaction()
+                                transaction?.replace(it1, tvShowReviewsFragment)?.commit()
+                                transaction?.addToBackStack(null)
+                            }
+                        }
                     }
                 }
 

@@ -6,6 +6,7 @@ import android.graphics.Typeface
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
@@ -61,7 +62,7 @@ class TVShowView(context: Context) : ScrollView(context) {
     var type = TextView(context)
     var voteAverage = TextView(context)
     var voteCount = TextView(context)
-
+    var reviewsButton=Button(context)
 
     init{
 
@@ -298,7 +299,14 @@ class TVShowView(context: Context) : ScrollView(context) {
 
         }
         linearLayout.addView(voteCount)
+
+        reviewsButton.apply {
+            text="Reviews"
+        }
+        linearLayout.addView(reviewsButton)
         addView(linearLayout)
+
+
 
     }
 
