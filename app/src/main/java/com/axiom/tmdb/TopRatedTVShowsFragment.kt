@@ -24,6 +24,16 @@ class TopRatedTVShowsFragment : Fragment() {
                 .build()
         }
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if(savedInstanceState==null){
+            println("einai null")
+        }
+        else{
+            println("NOOOOO")
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,9 +43,10 @@ class TopRatedTVShowsFragment : Fragment() {
             lifecycleScope.launchWhenResumed {
                 val response1 = myApi.getTopTVShows()
                 tvShowsDetails = response1.body()!!
+                var saved=FavoriteManager(context)
                 tvShowsRecyclerView.layoutManager = LinearLayoutManager(context)
                 tvShowsRecyclerView.adapter =
-                    TVShowsAdapter(tvShowsDetails) { tvShowID ->
+                    TVShowsAdapter(tvShowsDetails,saved) { tvShowID ->
                         for (x in tvShowsDetails.results) {
                             if (x.id == tvShowID) {
                                 println(tvShowID)
@@ -56,6 +67,10 @@ class TopRatedTVShowsFragment : Fragment() {
         }
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+    }
     companion object {
         @JvmStatic
         fun newInstance() =

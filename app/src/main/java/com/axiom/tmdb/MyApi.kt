@@ -11,8 +11,8 @@ import retrofit2.http.Query
 
 interface MyApi {
 
-    @GET("movie/top_rated?api_key=287f6ab6616e3724955e2b4c6841ea63")
-    suspend fun getTopRatedMovies(): Response<TMDB.Movies>
+    @GET("movie/top_rated")
+    suspend fun getTopRatedMovies(@Query("api_key") apiKey:String,@Query("page") page:Int): Response<TMDB.Movies>
 
     @GET("authentication/token/new?api_key=287f6ab6616e3724955e2b4c6841ea63")
     suspend fun getToken(): Response<TMDB.Token>
@@ -21,24 +21,24 @@ interface MyApi {
     suspend fun getSessionID(@Body token: TMDB.Token): Response<TMDB.Session>
 
     @GET("{id}?api_key=287f6ab6616e3724955e2b4c6841ea63")
-    fun getMovieDetails(@Path("id") movieID:Int): Call<TMDB.MovieDetails>
+    suspend fun getMovieDetails(@Path("id") movieID:Int): Response<TMDB.MovieDetails>
 
     @GET("tv/top_rated?api_key=287f6ab6616e3724955e2b4c6841ea63")
     suspend fun getTopTVShows(): Response<TMDB.TVShows>
 
     @GET("{id}?api_key=287f6ab6616e3724955e2b4c6841ea63")
-    fun getTVShowDetails(@Path("id") tvShowID:Int): Call<TMDB.TVShowDetails>
+    suspend fun getTVShowDetails(@Path("id") tvShowID:Int): Response<TMDB.TVShowDetails>
 
     @GET("movie")
-    fun searchMovie(@Query("api_key") apiKey:String,@Query("query") movie:String): Call<TMDB.Movies>
+    suspend fun searchMovie(@Query("api_key") apiKey:String,@Query("query") movie:String): Response<TMDB.Movies>
 
     @GET("tv")
-    fun searchTVShow(@Query("api_key") apiKey:String,@Query("query") tvShow:String): Call<TMDB.TVShows>
+    suspend fun searchTVShow(@Query("api_key") apiKey:String,@Query("query") tvShow:String): Response<TMDB.TVShows>
 
     @GET("{movieID}/reviews?api_key=287f6ab6616e3724955e2b4c6841ea63")
-    fun getMovieReviews(@Path("movieID") movieID:Int): Call<TMDB.Reviews>
+    suspend fun getMovieReviews(@Path("movieID") movieID:Int): Response<TMDB.Reviews>
 
     @GET("{tvShowID}/reviews?api_key=287f6ab6616e3724955e2b4c6841ea63")
-    fun getTVShowReviews(@Path("tvShowID") tvShowID:Int): Call<TMDB.Reviews>
+    suspend fun getTVShowReviews(@Path("tvShowID") tvShowID:Int): Response<TMDB.Reviews>
 
 }

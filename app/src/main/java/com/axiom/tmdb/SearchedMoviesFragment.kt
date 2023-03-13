@@ -14,7 +14,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class SearchedMoviesFragment:Fragment() {
-    lateinit var movies: TMDB.Movies
+    lateinit var movies: MutableList<TMDB.MovieBasic>
     var searchMovie=""
     object RetrofitHelper {
         private const val baseUrl = "https://api.themoviedb.org/3/search/"
@@ -29,6 +29,8 @@ class SearchedMoviesFragment:Fragment() {
         arguments?.let {
             searchMovie=it.getString("searchMovie")!!
         }
+        movies = mutableListOf()
+
     }
 
     override fun onCreateView(
@@ -38,42 +40,44 @@ class SearchedMoviesFragment:Fragment() {
         SearchedTVShowView(it).apply {
             val myApi = SearchedTVShowsFragment.RetrofitHelper.getInstance().create(MyApi::class.java)
             lifecycleScope.launchWhenResumed {
-                var call= myApi.searchMovie("287f6ab6616e3724955e2b4c6841ea63",searchMovie)
-                call.enqueue(object : Callback<TMDB.Movies> {
-                    override fun onResponse(
-                        call: Call<TMDB.Movies>,
-                        response: Response<TMDB.Movies>
-                    ) {
-                        movies= response.body()!!
+                var response= myApi.searchMovie("287f6ab6616e3724955e2b4c6841ea63",searchMovie)
+                var pages=response.body()!!.total_pages
+                var result = response.body()!!.results
+                for (x in result!!) {
+                    movies.add(x)
+                }
+                var saved=FavoriteManager(context)
+                recyclerView.layoutManager = LinearLayoutManager(context)
+                recyclerView.adapter =
+                    MoviesAdapter(movies,saved) {movieID ->
+                        for (x in movies) {
+                            if (x.id == movieID) {
+                                println(movieID)
+                                var movieFragment = MovieFragment.newInstance(movieID)
 
-                        recyclerView.layoutManager = LinearLayoutManager(context)
-                        recyclerView.adapter =
-                            MoviesAdapter(movies) {movieID ->
-                                for (x in movies.results) {
-                                    if (x.id == movieID) {
-                                        println(movieID)
-                                        var movieFragment = MovieFragment.newInstance(movieID)
+                                (activity as? MainActivity)?.myLayout?.id?.let { it1 ->
 
-                                        (activity as? MainActivity)?.myLayout?.id?.let { it1 ->
-
-                                            var transaction =
-                                                activity?.supportFragmentManager?.beginTransaction()
-                                            transaction?.replace(it1, movieFragment)?.commit()
-                                            transaction?.addToBackStack(null)
-                                        }
-                                        break
-                                    }
+                                    var transaction =
+                                        activity?.supportFragmentManager?.beginTransaction()
+                                    transaction?.replace(it1, movieFragment)?.commit()
+                                    transaction?.addToBackStack(null)
                                 }
+                                break
                             }
-
-
+                        }
                     }
 
-                    override fun onFailure(call: Call<TMDB.Movies>, t: Throwable) {
-
-                    }
-
-                })
+//                call.enqueue(object : Callback<TMDB.Movies> {
+//                    override fun onResponse(
+//                        call: Call<TMDB.Movies>,
+//                        response: Response<TMDB.Movies>
+//                    ) {
+//
+//                    }
+//
+//                    override fun onFailure(call: Call<TMDB.Movies>, t: Throwable) {
+//                    }
+//                })
 
 
             }

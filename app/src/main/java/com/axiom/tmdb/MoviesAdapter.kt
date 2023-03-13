@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class MoviesAdapter(var moviesDetails: TMDB.Movies, val clickListener: (Int) -> Unit) :
+class MoviesAdapter(var movies: List<TMDB.MovieBasic>, var favorites:FavoriteManager, val clickListener: (Int) -> Unit) :
     RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
 
 
@@ -19,16 +19,29 @@ class MoviesAdapter(var moviesDetails: TMDB.Movies, val clickListener: (Int) -> 
 
 
     override fun getItemCount(): Int {
-
-        return moviesDetails.results.size
+        return movies.size
     }
 
     override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) {
         "${(position + 1)} ".also { holder.view.pos.text = it }
-        holder.view.text.text = moviesDetails.results[position].title
+        holder.view.text.text = movies[position].title
+        for(x in favorites.getMoviesFavorites()){
+            if(x==movies[position].id){
+                holder.view.favorite.isChecked=true
+            }
+        }
+        var checkBox=holder.view.favorite
+        checkBox.setOnClickListener{
+            if(checkBox.isChecked) {
+                favorites.addMovieFavorite(movies[position].id)
+            }
+            else{
+                favorites.deleteMovieFavorite(movies[position].id)
+            }
+        }
         holder.itemView.setOnClickListener {
-            clickListener(moviesDetails.results[position].id)
-            println("Title pressed: " + (moviesDetails.results[position].title))
+            clickListener(movies[position].id)
+            println("Title pressed: " + (movies[position].title))
         }
 
     }

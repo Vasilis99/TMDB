@@ -42,42 +42,44 @@ class SearchedTVShowsFragment:Fragment() {
         SearchedTVShowView(it).apply {
             val myApi = SearchedTVShowsFragment.RetrofitHelper.getInstance().create(MyApi::class.java)
             lifecycleScope.launchWhenResumed {
-                var call= myApi.searchTVShow("287f6ab6616e3724955e2b4c6841ea63",searchTVShow)
-                call.enqueue(object : Callback<TMDB.TVShows> {
-                    override fun onResponse(
-                        call: Call<TMDB.TVShows>,
-                        response: Response<TMDB.TVShows>
-                    ) {
-                        tvShows= response.body()!!
-                        println(tvShows.results.size.toString()+"Ti ginete dame"+searchTVShow)
-                        recyclerView.layoutManager = LinearLayoutManager(context)
-                        recyclerView.adapter =
-                            TVShowsAdapter(tvShows) { tvShowID ->
-                                for (x in tvShows.results) {
-                                    if (x.id == tvShowID) {
-                                        println(tvShowID)
-                                        var tvShowFragment = TVShowFragment.newInstance(tvShowID)
+                var response= myApi.searchTVShow("287f6ab6616e3724955e2b4c6841ea63",searchTVShow)
 
-                                        (activity as? MainActivity)?.myLayout?.id?.let { it1 ->
+                tvShows= response.body()!!
+                var saved=FavoriteManager(context)
+                recyclerView.layoutManager = LinearLayoutManager(context)
+                recyclerView.adapter =
+                    TVShowsAdapter(tvShows,saved) { tvShowID ->
+                        for (x in tvShows.results) {
+                            if (x.id == tvShowID) {
+                                println(tvShowID)
+                                var tvShowFragment = TVShowFragment.newInstance(tvShowID)
 
-                                            var transaction =
-                                                activity?.supportFragmentManager?.beginTransaction()
-                                            transaction?.replace(it1, tvShowFragment)?.commit()
-                                            transaction?.addToBackStack(null)
-                                        }
-                                        break
-                                    }
+                                (activity as? MainActivity)?.myLayout?.id?.let { it1 ->
+
+                                    var transaction =
+                                        activity?.supportFragmentManager?.beginTransaction()
+                                    transaction?.replace(it1, tvShowFragment)?.commit()
+                                    transaction?.addToBackStack(null)
                                 }
+                                break
                             }
-
-
+                        }
                     }
 
-                    override fun onFailure(call: Call<TMDB.TVShows>, t: Throwable) {
-
-                    }
-
-                })
+//                call.enqueue(object : Callback<TMDB.TVShows> {
+//                    override fun onResponse(
+//                        call: Call<TMDB.TVShows>,
+//                        response: Response<TMDB.TVShows>
+//                    ) {
+//
+//
+//                    }
+//
+//                    override fun onFailure(call: Call<TMDB.TVShows>, t: Throwable) {
+//
+//                    }
+//
+//                })
 
 
             }
