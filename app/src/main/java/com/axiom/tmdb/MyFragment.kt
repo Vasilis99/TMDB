@@ -26,6 +26,7 @@ class MyFragment : Fragment() {
                     0 -> tab.text = "Top Rated Shows"
                     1 -> tab.text = "Top Rated Movies"
                     2 -> tab.text = "Search Movies-TV Shows"
+                    3 -> tab.text = "Favorites"
                 }
             }.attach()
         }

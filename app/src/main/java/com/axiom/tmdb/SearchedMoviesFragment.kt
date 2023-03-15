@@ -37,7 +37,7 @@ class SearchedMoviesFragment:Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? = inflater.context.let {
-        SearchedTVShowView(it).apply {
+        SearchedTVShowsView(it).apply {
             val myApi = SearchedTVShowsFragment.RetrofitHelper.getInstance().create(MyApi::class.java)
             lifecycleScope.launchWhenResumed {
                 var response= myApi.searchMovie("287f6ab6616e3724955e2b4c6841ea63",searchMovie)
@@ -66,20 +66,6 @@ class SearchedMoviesFragment:Fragment() {
                             }
                         }
                     }
-
-//                call.enqueue(object : Callback<TMDB.Movies> {
-//                    override fun onResponse(
-//                        call: Call<TMDB.Movies>,
-//                        response: Response<TMDB.Movies>
-//                    ) {
-//
-//                    }
-//
-//                    override fun onFailure(call: Call<TMDB.Movies>, t: Throwable) {
-//                    }
-//                })
-
-
             }
         }
     }

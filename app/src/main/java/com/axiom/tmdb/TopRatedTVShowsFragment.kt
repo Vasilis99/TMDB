@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 class TopRatedTVShowsFragment : Fragment() {
-    private lateinit var tvShowsDetails: TMDB.TVShows
+    private lateinit var tvShows: MutableList<TMDB.TVShowBasic>
 
 
     object RetrofitHelper {
@@ -33,6 +33,7 @@ class TopRatedTVShowsFragment : Fragment() {
         else{
             println("NOOOOO")
         }
+        tvShows= mutableListOf()
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,13 +42,16 @@ class TopRatedTVShowsFragment : Fragment() {
         TopRatedTVShowsView(it).apply {
             val myApi = TopRatedTVShowsFragment.RetrofitHelper.getInstance().create(MyApi::class.java)
             lifecycleScope.launchWhenResumed {
-                val response1 = myApi.getTopTVShows()
-                tvShowsDetails = response1.body()!!
+                val response = myApi.getTopTVShows()
+                var results = response.body()!!.results
+                for (x in results!!) {
+                    tvShows.add(x)
+                }
                 var saved=FavoriteManager(context)
                 tvShowsRecyclerView.layoutManager = LinearLayoutManager(context)
                 tvShowsRecyclerView.adapter =
-                    TVShowsAdapter(tvShowsDetails,saved) { tvShowID ->
-                        for (x in tvShowsDetails.results) {
+                    TVShowsAdapter(tvShows,saved) { tvShowID ->
+                        for (x in tvShows) {
                             if (x.id == tvShowID) {
                                 println(tvShowID)
                                 var tvShowFragment = TVShowFragment.newInstance(tvShowID)

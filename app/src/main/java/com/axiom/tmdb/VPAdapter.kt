@@ -11,14 +11,15 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 
     class VPAdapter(fragmentActivity: Fragment): FragmentStateAdapter(fragmentActivity) {
         override fun getItemCount(): Int {
-            return 3;
+            return 4;
         }
 
         override fun createFragment(position: Int): Fragment {
             var fragment:Fragment = when(position){
                 0 -> TopRatedTVShowsFragment()
                 1 -> TopRatedMoviesFragment()
-                else -> SearchMovieTVShowFragment()
+                2 -> SearchMovieTVShowFragment()
+                else -> FavoritesFragment()
 
             }
             return fragment

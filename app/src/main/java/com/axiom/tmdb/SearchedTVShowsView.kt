@@ -6,7 +6,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class SearchedTVShowView(context: Context):LinearLayout(context) {
+class SearchedTVShowsView(context: Context):LinearLayout(context) {
     var title=TextView(context)
     var recyclerView=RecyclerView(context)
     init{

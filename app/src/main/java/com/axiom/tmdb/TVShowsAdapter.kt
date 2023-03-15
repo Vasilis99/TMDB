@@ -3,7 +3,7 @@ package com.axiom.tmdb
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class TVShowsAdapter(var tvShowsDetails: TMDB.TVShows,var favorites: FavoriteManager, val clickListener: (Int)->Unit) : RecyclerView.Adapter<TVShowsAdapter.TVShowsViewHolder>() {
+class TVShowsAdapter(var tvShows: List<TMDB.TVShowBasic>,var favorites: FavoriteManager, val clickListener: (Int)->Unit) : RecyclerView.Adapter<TVShowsAdapter.TVShowsViewHolder>() {
 
 
     class TVShowsViewHolder(val view:RecyclerViewItemView):RecyclerView.ViewHolder(view)
@@ -15,29 +15,29 @@ class TVShowsAdapter(var tvShowsDetails: TMDB.TVShows,var favorites: FavoriteMan
 
 
     override fun getItemCount(): Int {
-        return tvShowsDetails.results.size
+        return tvShows.size
     }
 
     override fun onBindViewHolder(holder: TVShowsViewHolder, position: Int) {
         "${(position + 1)} ".also { holder.view.pos.text = it }
-        holder.view.text.text=tvShowsDetails.results[position].name
+        holder.view.text.text=tvShows[position].name
         for(x in favorites.getTVShowsFavorites()){
-            if(x==tvShowsDetails.results[position].id){
+            if(x==tvShows[position].id){
                 holder.view.favorite.isChecked=true
             }
         }
         var checkBox=holder.view.favorite
         checkBox.setOnClickListener{
             if(checkBox.isChecked) {
-                favorites.addTVShowFavorite(tvShowsDetails.results[position].id)
+                favorites.addTVShowFavorite(tvShows[position].id)
             }
             else{
-                favorites.deleteTVShowFavorite(tvShowsDetails.results[position].id)
+                favorites.deleteTVShowFavorite(tvShows[position].id)
             }
         }
         holder.itemView.setOnClickListener {
-            clickListener(tvShowsDetails.results[position].id)
-            println("Title pressed: " + (tvShowsDetails.results[position].name))
+            clickListener(tvShows[position].id)
+            println("Title pressed: " + (tvShows[position].name))
         }
 
     }

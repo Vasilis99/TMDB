@@ -15,7 +15,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class SearchedTVShowsFragment:Fragment() {
-    private lateinit var tvShows: TMDB.TVShows
+    private lateinit var tvShows: MutableList<TMDB.TVShowBasic>
     //lateinit var topRatedMoviesRecyclerView: RecyclerView
     var searchTVShow:String=""
     object RetrofitHelper {
@@ -29,27 +29,31 @@ class SearchedTVShowsFragment:Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments.let{
+        arguments.let {
             if (it != null) {
-                searchTVShow=it.getString("tvShow")!!
+                searchTVShow = it.getString("tvShow")!!
             }
         }
+        tvShows= mutableListOf()
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? = inflater.context.let {
-        SearchedTVShowView(it).apply {
+        SearchedTVShowsView(it).apply {
             val myApi = SearchedTVShowsFragment.RetrofitHelper.getInstance().create(MyApi::class.java)
             lifecycleScope.launchWhenResumed {
                 var response= myApi.searchTVShow("287f6ab6616e3724955e2b4c6841ea63",searchTVShow)
 
-                tvShows= response.body()!!
+                var results = response.body()!!.results
+                for (x in results!!) {
+                    tvShows.add(x)
+                }
                 var saved=FavoriteManager(context)
                 recyclerView.layoutManager = LinearLayoutManager(context)
                 recyclerView.adapter =
                     TVShowsAdapter(tvShows,saved) { tvShowID ->
-                        for (x in tvShows.results) {
+                        for (x in tvShows) {
                             if (x.id == tvShowID) {
                                 println(tvShowID)
                                 var tvShowFragment = TVShowFragment.newInstance(tvShowID)
