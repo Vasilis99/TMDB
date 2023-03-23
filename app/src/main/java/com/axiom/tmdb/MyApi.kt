@@ -20,13 +20,13 @@ interface MyApi {
     @POST("authentication/session/new?api_key=287f6ab6616e3724955e2b4c6841ea63")
     suspend fun getSessionID(@Body token: TMDB.Token): Response<TMDB.Session>
 
-    @GET("{id}?api_key=287f6ab6616e3724955e2b4c6841ea63")
+    @GET("movie/{id}?api_key=287f6ab6616e3724955e2b4c6841ea63")
     suspend fun getMovieDetails(@Path("id") movieID:Int): Response<TMDB.MovieDetails>
 
     @GET("tv/top_rated?api_key=287f6ab6616e3724955e2b4c6841ea63")
     suspend fun getTopTVShows(): Response<TMDB.TVShows>
 
-    @GET("{id}?api_key=287f6ab6616e3724955e2b4c6841ea63")
+    @GET("tv/{id}?api_key=287f6ab6616e3724955e2b4c6841ea63")
     suspend fun getTVShowDetails(@Path("id") tvShowID:Int): Response<TMDB.TVShowDetails>
 
     @GET("movie")
@@ -35,10 +35,10 @@ interface MyApi {
     @GET("tv")
     suspend fun searchTVShow(@Query("api_key") apiKey:String,@Query("query") tvShow:String): Response<TMDB.TVShows>
 
-    @GET("{movieID}/reviews?api_key=287f6ab6616e3724955e2b4c6841ea63")
+    @GET("movie/{movieID}/reviews?api_key=287f6ab6616e3724955e2b4c6841ea63")
     suspend fun getMovieReviews(@Path("movieID") movieID:Int): Response<TMDB.Reviews>
 
-    @GET("{tvShowID}/reviews?api_key=287f6ab6616e3724955e2b4c6841ea63")
+    @GET("tv/{tvShowID}/reviews?api_key=287f6ab6616e3724955e2b4c6841ea63")
     suspend fun getTVShowReviews(@Path("tvShowID") tvShowID:Int): Response<TMDB.Reviews>
 
 }
