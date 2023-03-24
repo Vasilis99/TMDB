@@ -23,8 +23,8 @@ interface MyApi {
     @GET("movie/{id}?api_key=287f6ab6616e3724955e2b4c6841ea63")
     suspend fun getMovieDetails(@Path("id") movieID:Int): Response<TMDB.MovieDetails>
 
-    @GET("tv/top_rated?api_key=287f6ab6616e3724955e2b4c6841ea63")
-    suspend fun getTopTVShows(): Response<TMDB.TVShows>
+    @GET("tv/top_rated")
+    suspend fun getTopTVShows(@Query("api_key") apiKey:String,@Query("page") page:Int): Response<TMDB.TVShows>
 
     @GET("tv/{id}?api_key=287f6ab6616e3724955e2b4c6841ea63")
     suspend fun getTVShowDetails(@Path("id") tvShowID:Int): Response<TMDB.TVShowDetails>

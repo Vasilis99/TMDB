@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(myLayout)
         var myFragment=MyFragment()
         supportFragmentManager.
-        beginTransaction().add(myLayout.id, myFragment)
+        beginTransaction().replace(myLayout.id, myFragment)
               // .apply { if (backStack) addToBackStack(null) }
                 .commit()
 

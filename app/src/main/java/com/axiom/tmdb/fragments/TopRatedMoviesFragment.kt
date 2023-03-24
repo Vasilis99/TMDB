@@ -17,12 +17,14 @@ import com.axiom.tmdb.RetrofitHelper
 import com.axiom.tmdb.TMDB
 import com.axiom.tmdb.adapters.TVShowsAdapter
 import com.axiom.tmdb.views.TopRatedMoviesView
+import com.axiomc.core.dslanguage.design.Recycler.onScrollBoundBot
 
 
 class TopRatedMoviesFragment : Fragment() {
 
     lateinit var movies: MutableList<TMDB.MovieBasic>
-
+    var pageCount=1
+    var totalPages=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +40,7 @@ class TopRatedMoviesFragment : Fragment() {
 
             lifecycleScope.launchWhenResumed {
                 var response = myApi.getTopRatedMovies("287f6ab6616e3724955e2b4c6841ea63", 1)
-                var pages=response.body()!!.total_pages
+                totalPages=response.body()!!.total_pages
                 var result = response.body()!!.results
                 for (x in result!!) {
                     movies.add(x)
@@ -66,6 +68,26 @@ class TopRatedMoviesFragment : Fragment() {
                         }
                     }
 
+                moviesRecyclerView.onScrollBoundBot {
+                    pageCount++
+                    println("Page count $pageCount")
+                    if(pageCount!=totalPages) {
+                        lifecycleScope.launchWhenResumed {
+                            var listLength = movies.size
+                            val resp =
+                                myApi.getTopRatedMovies("287f6ab6616e3724955e2b4c6841ea63", pageCount)
+                            var res = resp.body()!!.results
+                            for (x in res!!) {
+                                movies.add(x)
+                            }
+                            var adapter = (moviesRecyclerView.adapter as MoviesAdapter)
+
+                            adapter.listMovies = movies
+                            var diff = movies.size - listLength
+                            adapter.notifyItemRangeChanged(listLength, diff)
+                        }
+                    }
+                }
 
                 var favObserver= Observer<List<Triple<Int, String, String>>> {updated->
                     println("Updated "+updated)

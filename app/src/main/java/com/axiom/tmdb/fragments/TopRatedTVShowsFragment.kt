@@ -16,11 +16,14 @@ import com.axiom.tmdb.RetrofitHelper
 import com.axiom.tmdb.TMDB
 import com.axiom.tmdb.adapters.TVShowsAdapter
 import com.axiom.tmdb.views.TopRatedTVShowsView
+import com.axiomc.core.dslanguage.design.Recycler.onScrollBoundBot
 
 
 class TopRatedTVShowsFragment : Fragment() {
     lateinit var tvShows: MutableList<TMDB.TVShowBasic>
     lateinit var favorites:FavoriteManager
+    var pageCount=1
+    private var totalPages=0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         println("Top rated tvShow Fragment")
@@ -39,7 +42,8 @@ class TopRatedTVShowsFragment : Fragment() {
         TopRatedTVShowsView(it).apply {
             val myApi = RetrofitHelper.getInstance().create(MyApi::class.java)
             lifecycleScope.launchWhenResumed {
-                val response = myApi.getTopTVShows()
+                val response = myApi.getTopTVShows("287f6ab6616e3724955e2b4c6841ea63",1)
+                totalPages=response.body()!!.total_pages
                 var results = response.body()!!.results
                 for (x in results!!) {
                     tvShows.add(x)
@@ -72,7 +76,26 @@ class TopRatedTVShowsFragment : Fragment() {
                     },{ tvShow->
                         f.deleteTVShowFavorites(tvShow)
                     })
+                tvShowsRecyclerView.onScrollBoundBot {
+                    pageCount++
+                    println("Page count $pageCount")
+                    if(pageCount!=totalPages) {
+                        lifecycleScope.launchWhenResumed {
+                            var listLength = tvShows.size
+                            val resp =
+                                myApi.getTopTVShows("287f6ab6616e3724955e2b4c6841ea63", pageCount)
+                            var res = resp.body()!!.results
+                            for (x in res!!) {
+                                tvShows.add(x)
+                            }
+                            var adapter = (tvShowsRecyclerView.adapter as TVShowsAdapter)
 
+                            adapter.listTVShows = tvShows
+                            var diff = tvShows.size - listLength
+                            adapter.notifyItemRangeChanged(listLength, diff)
+                        }
+                    }
+                }
 
                 var favObserver= Observer<List<Triple<Int, String, String>>> {updated->
                     println("Updated "+updated)
