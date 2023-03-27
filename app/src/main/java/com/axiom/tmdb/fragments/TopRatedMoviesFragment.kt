@@ -54,7 +54,7 @@ class TopRatedMoviesFragment : Fragment() {
                         for (x in movies) {
                             if (x.id == movieID) {
                                 println(movieID)
-                                var moviesFragment = TVShowFragment.newInstance(movieID)
+                                var moviesFragment = MovieFragment.newInstance(movieID)
 
                                 (activity as? MainActivity)?.myLayout?.id?.let { it1 ->
 

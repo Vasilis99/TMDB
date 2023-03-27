@@ -24,7 +24,7 @@ class TVShowView(context: Context) : ScrollView(context) {
     init{
         tvShowViews.add(TextView(context).applyId().color(Color.BLACK).bold().size(22))
         tvShowViews.add(ImageView(context).applyId())
-        tvShowViews.add(TVShowSpecialView(context))
+        tvShowViews.add(SpecialView(context))
 
         for(i in 3 .. 10){
             tvShowViews.add(TitleDescriptionView(context).vertical())
@@ -35,7 +35,7 @@ class TVShowView(context: Context) : ScrollView(context) {
             tvShowViews.add(TitleDescriptionView(context).vertical())
         }
         tvShowViews.add(ImageView(context).applyId())
-        tvShowViews.add(TVShowSpecialView(context))
+        tvShowViews.add(SpecialView(context))
 
         for(i in 21 .. 27){
             tvShowViews.add(TitleDescriptionView(context).vertical())
@@ -47,7 +47,7 @@ class TVShowView(context: Context) : ScrollView(context) {
         linearLayout.apply {
             orientation=LinearLayout.VERTICAL
             layoutParams=LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                setMargins(0,0,0,dp(20))
+                setMargins(10,0,10,dp(20))
             }
         }
         for(x in tvShowViews){

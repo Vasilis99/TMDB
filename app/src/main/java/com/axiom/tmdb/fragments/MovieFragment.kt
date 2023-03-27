@@ -7,17 +7,23 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import com.axiom.tmdb.MainActivity
 import com.axiom.tmdb.MyApi
 import com.axiom.tmdb.RetrofitHelper
 import com.axiom.tmdb.TMDB
+import com.axiom.tmdb.adapters.TVShowProductionCompanyAdapter
+import com.axiom.tmdb.views.CollectionView
 import com.axiom.tmdb.views.MovieView
+import com.axiom.tmdb.views.SpecialView
+import com.axiom.tmdb.views.TitleDescriptionView
 
 
 class MovieFragment : Fragment() {
@@ -50,80 +56,75 @@ class MovieFragment : Fragment() {
             movieDetails=response.body()!!
             var movieView=(view as MovieView)
             movieView.apply {
-                title.text=movieDetails.title
+                (movieMap["title"] as TextView).text=movieDetails.title
                 var adultText=if(movieDetails.adult) "Yes" else "No"
-                adult.text=Html.fromHtml("<p><b>Adult</b><br>$adultText</p>",1)
-                backdrop.text="Backdrop image"
-                backdropImage.load("https://image.tmdb.org/t/p/original"+movieDetails.backdrop_path)
+                var adult=(movieMap["adult"] as TitleDescriptionView)
+                adult.title.text="Adult"
+                adult.desc.text=adultText
+                (movieMap["backdrop"] as ImageView).load("https://image.tmdb.org/t/p/original"+movieDetails.backdrop_path)
+                var collection=(movieMap["collection"] as CollectionView)
+                collection.title.text="Collection"
                 if(movieDetails.belongs_to_collection!=null) {
-                    belongsToCollectionID.text = Html.fromHtml("<p><b>Collection ID</b><br>" + movieDetails.belongs_to_collection.id + "</p>",1)
-                    belongsToCollectionName.text=Html.fromHtml("<p><b>Collection Name</b><br>" + movieDetails.belongs_to_collection.name+"</p>",1)
-                    belongsToCollectionPoster.load("https://image.tmdb.org/t/p/original"+movieDetails.belongs_to_collection.poster_path)
-                    belongsToCollectionBackdrop.load("https://image.tmdb.org/t/p/original"+movieDetails.belongs_to_collection.backdrop_path)
+                    collection.name.text=movieDetails.belongs_to_collection.name
+                    collection.image.load("https://image.tmdb.org/t/p/w300"+movieDetails.belongs_to_collection.backdrop_path)
+                    collection.addView(collection.name)
+                    collection.addView(collection.image)
                 }
                 else{
-                    belongsToCollectionID.text=Html.fromHtml("<p><b>Collection</b><br>" +"No" + "</p>",1)
+                    collection.unknown.text="No"
+                    collection.addView(collection.unknown)
                 }
-                budget.text=Html.fromHtml("<p><b>Budget</b><br>"+movieDetails.budget+"</p>",1)
+                var budget=(movieMap["budget"] as TitleDescriptionView)
+                budget.title.text="Budget"
+                budget.desc.text=movieDetails.budget.toString()
                 var genresString=""
                 if(movieDetails.genres!=null) {
                     for (x in movieDetails.genres) {
                         genresString += x.name +" "
                     }
-
                 }
                 else{
                     genresString="No"
                 }
-                genres.text=Html.fromHtml("<p><b>Genres</b><br>$genresString</p>",1)
-                homepage.text=Html.fromHtml("<p><b>Homepage</b><br>${movieDetails.homepage}</p>",1)
-                movieID.text=Html.fromHtml("<p><b>ID</b><br>${movieDetails.id}</p>",1)
-                imdbID.text=Html.fromHtml("<p><b>imdb id</b><br>${movieDetails.imdb_id}</p>",1)
-                originalLanguage.text=Html.fromHtml("<p><b>Original language</b><br>${movieDetails.original_language}</p>",1)
-                originalTitle.text=Html.fromHtml("<p><b>Original title</b><br>${movieDetails.original_title}</p>",1)
-                overview.text=Html.fromHtml("<p><b>Overview</b><br>${movieDetails.overview}</p>",1)
-                popularity.text=Html.fromHtml("<p><b>Popularity</b><br>${movieDetails.popularity}</p>",1)
-                if(movieDetails.production_companies!=null){
-                    var prodComp=TextView(context)
-                    prodComp.id=View.generateViewId()
-                    prodComp.text="Production companies"
-                    prodComp.setTextColor(Color.BLACK)
-                    prodComp.typeface= Typeface.DEFAULT_BOLD
-                    productionCompanies.addView(prodComp)
-                    for(x in movieDetails.production_companies){
-                        var prodCompName=TextView(context)
-                        prodCompName.id=View.generateViewId()
-                        prodCompName.setTextColor(Color.BLACK)
-                        prodCompName.text=Html.fromHtml("<p><b>Name</b><br>${x.name}</p>",1)
-                        productionCompanies.addView(prodCompName)
-                        var prodCompID=TextView(context)
-                        prodCompID.id=View.generateViewId()
-                        prodCompID.setTextColor(Color.BLACK)
-                        prodCompID.text=Html.fromHtml("<p><b>ID</b><br>${x.id}</p>",1)
-                        productionCompanies.addView(prodCompID)
-                        var prodCompOrigCountry=TextView(context)
-                        prodCompOrigCountry.id=View.generateViewId()
-                        prodCompOrigCountry.setTextColor(Color.BLACK)
-                        prodCompOrigCountry.text=Html.fromHtml("<p><b>Origin Country</b><br>${x.origin_country}</p>",1)
-                        productionCompanies.addView(prodCompOrigCountry)
-                        var prodCompLogo=ImageView(context)
-                        prodCompLogo.id=View.generateViewId()
-                        var url4="https://image.tmdb.org/t/p/original"+x.logo_path
-                        prodCompLogo.load(url4)
-                        productionCompanies.addView(prodCompLogo)
+                var genres=(movieMap["genres"] as TitleDescriptionView)
+                genres.title.text="Genres"
+                genres.desc.text=genresString
+                var homepage=(movieMap["homepage"] as TitleDescriptionView)
+                homepage.title.text="Homepage"
+                homepage.desc.text=movieDetails.homepage
+                var movieID=(movieMap["movieID"] as TitleDescriptionView)
+                movieID.title.text="Movie ID"
+                movieID.desc.text= movieDetails.id.toString()
+                var originalLanguage=(movieMap["originalLanguage"] as TitleDescriptionView)
+                originalLanguage.title.text="Original Language"
+                originalLanguage.desc.text= movieDetails.original_language
+                var overview=(movieMap["overview"] as TitleDescriptionView)
+                overview.title.text="Overview"
+                overview.desc.text= movieDetails.overview
+                var popularity=(movieMap["popularity"] as TitleDescriptionView)
+                popularity.title.text="Popularity"
+                popularity.desc.text= movieDetails.popularity.toString()
 
-                    }
+                var productionCompanies=(movieMap["productionCompanies"] as SpecialView)
+                productionCompanies.title.text="Production companies"
+                if(movieDetails.production_companies.isEmpty()) {
+                    productionCompanies.unknown.text="Unknown"
+                    productionCompanies.addView(productionCompanies.unknown)
                 }
                 else{
-                    var prodComp=TextView(context)
-                    prodComp.id=View.generateViewId()
-                    prodComp.text=Html.fromHtml("<p><b>Production Companies</b><br>"+"Unknown"+"</p>",1)
-                    prodComp.setTextColor(Color.BLACK)
-                    productionCompanies.addView(prodComp)
+                    productionCompanies.addView(productionCompanies.recyclerView)
+                    productionCompanies.recyclerView.layoutManager =
+                        LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                    productionCompanies.recyclerView.adapter =
+                        TVShowProductionCompanyAdapter(movieDetails.production_companies)
                 }
 
+
                 var prodCountriesNames=""
-                if(movieDetails.production_countries!=null){
+                if(movieDetails.production_countries.isEmpty()){
+                    prodCountriesNames="Unknown"
+                }
+                else{
                     for((i,x) in movieDetails.production_countries.withIndex()){
                         prodCountriesNames += if(i!=movieDetails.production_countries.size-1)
                             x.name+"/n"
@@ -131,16 +132,24 @@ class MovieFragment : Fragment() {
                             x.name
                     }
                 }
-                else{
-                    prodCountriesNames="Unknown"
-                }
-                productionCountries.text=Html.fromHtml("<p><b>Production Counties</b><br>$prodCountriesNames</p>",1)
-                productionCountries.setTextColor(Color.BLACK)
-                releaseDate.text=Html.fromHtml("<p><b>Release date</b><br>${movieDetails.release_date}</p>",1)
-                revenue.text=Html.fromHtml("<p><b>Revenue</b><br>${movieDetails.revenue}</p>",1)
-                runtime.text=Html.fromHtml("<p><b>Runtime</b><br>${movieDetails.runtime}</p>",1)
+                var productionCountries=(movieMap["productionCountries"] as TitleDescriptionView)
+                productionCountries.title.text="Production Counties"
+                productionCountries.desc.text=prodCountriesNames
+                var releaseDate=(movieMap["releaseDate"] as TitleDescriptionView)
+                releaseDate.title.text="Release Date"
+                releaseDate.desc.text=movieDetails.release_date
+                var revenue=(movieMap["revenue"] as TitleDescriptionView)
+                revenue.title.text="Revenue"
+                revenue.desc.text=movieDetails.revenue.toString()
+                var runtime=(movieMap["runtime"] as TitleDescriptionView)
+                runtime.title.text="Runtime"
+                runtime.desc.text=movieDetails.runtime.toString()
+
                 var spokenLanguagesNames=""
-                if(movieDetails.spoken_languages!=null){
+                if(movieDetails.spoken_languages.isEmpty()){
+                    spokenLanguagesNames="Unknown"
+                }
+                else{
                     for((i,x) in movieDetails.spoken_languages.withIndex()){
                         spokenLanguagesNames += if(i!=movieDetails.spoken_languages.size-1)
                             x.english_name+"\n"
@@ -148,16 +157,22 @@ class MovieFragment : Fragment() {
                             x.english_name
                     }
                 }
-                else{
-                    spokenLanguagesNames="Unknown"
-                }
-                spokenLanguages.text=Html.fromHtml("<p><b>Spoken Languages</b><br>$spokenLanguagesNames</p>",1)
-                status.text=Html.fromHtml("<p><b>Status</b><br>${movieDetails.status}</p>",1)
-                tagline.text=Html.fromHtml("<p><b>Tagline</b><br>${movieDetails.tagline}</p>",1)
-                var videoText=if(movieDetails.video) "Yes" else "No"
-                video.text=Html.fromHtml("<p><b>Video</b><br>$videoText</p>",1)
-                voteAverage.text=Html.fromHtml("<p><b>Vote average</b><br>${movieDetails.vote_average}</p>",1)
-                voteCount.text=Html.fromHtml("<p><b>Vote count</b><br>${movieDetails.vote_count}</p>",1)
+                var spokenLanguages=(movieMap["spokenLanguages"] as TitleDescriptionView)
+                spokenLanguages.title.text="Spoken Languages"
+                spokenLanguages.desc.text=spokenLanguagesNames
+                var status=(movieMap["status"] as TitleDescriptionView)
+                status.title.text="Status"
+                status.desc.text=movieDetails.status
+                var tagline=(movieMap["tagline"] as TitleDescriptionView)
+                tagline.title.text="Tagline"
+                tagline.desc.text=movieDetails.tagline
+                var voteAverage=(movieMap["voteAverage"] as TitleDescriptionView)
+                voteAverage.title.text="Vote Average"
+                voteAverage.desc.text=movieDetails.vote_average.toString()
+                var voteCount=(movieMap["voteCount"] as TitleDescriptionView)
+                voteCount.title.text="Vote Count"
+                voteCount.desc.text=movieDetails.vote_count.toString()
+                var reviewsButton=(movieMap["reviewsButton"] as Button)
 
                 reviewsButton.setOnClickListener {
                     var movieReviewsFragment =

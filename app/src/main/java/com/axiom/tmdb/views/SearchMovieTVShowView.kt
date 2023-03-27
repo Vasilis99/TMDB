@@ -1,6 +1,7 @@
 package com.axiom.tmdb.views
 
 import android.content.Context
+import android.graphics.Color
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
@@ -9,83 +10,70 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.marginTop
 import androidx.recyclerview.widget.RecyclerView
 import com.axiomc.core.components.text.AxiomEditText
+import com.axiomc.core.dslanguage.constraint.Helpers.applyId
+import com.axiomc.core.dslanguage.design.Text.bold
+import com.axiomc.core.dslanguage.design.Text.size
+import com.axiomc.core.dslanguage.design.Text.text
+import com.axiomc.core.dslanguage.design.color.Theme.color
+import com.axiomc.core.dslanguage.utility.Layout.margins
+import kotlinx.coroutines.awaitAll
 
 /**
  * TODO: document your custom view class.
  */
-class SearchMovieTVShowView(context: Context) : ScrollView(context) {
-    var conLayout = ConstraintLayout(context)
-    var linLayout = LinearLayout(context)
-    private val label = TextView(context).apply {
-        text = "Search Movies-TV Shows"
-        textSize = 30F
-    }
-    private var topRatedMoviesRecyclerView = RecyclerView(context)
-    var movieInputBox = AxiomEditText(context)
-    var movieButton = Button(context)
-    var tvShowInputBox = AxiomEditText(context)
-    var tvShowButton = Button(context)
+class SearchMovieTVShowView(context: Context) : ConstraintLayout(context) {
+    var title = TextView(context).applyId().bold().color(Color.BLACK).text("Search Movies-TV Shows")
+        .size(20).applyId()
+    var movieInputBox = AxiomEditText(context).applyId()
+    var movieButton = Button(context).applyId().text("Search TV Show")
+    var tvShowInputBox = AxiomEditText(context).applyId()
+    var tvShowButton = Button(context).applyId().text("Search Movie")
 
     init {
-        layoutParams=LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
-            id=View.generateViewId()
-        }
-        addView(linLayout)
-        linLayout.apply {
-            orientation = LinearLayout.VERTICAL
-            layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
-                id = View.generateViewId()
-            }
-            addView(label)
-            addView(conLayout)
+        id = generateViewId()
+        layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
+            setMargins(50,0,0,50)
         }
 
-        conLayout.apply {
-            layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
-                id = View.generateViewId()
-            }
+        title.layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
+            topToTop = this@SearchMovieTVShowView.id
+            startToStart = this@SearchMovieTVShowView.id
+            endToEnd = this@SearchMovieTVShowView.id
         }
-        movieInputBox.apply {
-            layoutParams = ConstraintLayout.LayoutParams(400, WRAP_CONTENT).apply {
-                id = View.generateViewId()
-                topToTop = conLayout.id
-                startToStart = conLayout.id
-                endToStart = tvShowInputBox.id
-            }
-        }
-        conLayout.addView(movieInputBox)
-        tvShowInputBox.apply {
-            layoutParams = ConstraintLayout.LayoutParams(400, WRAP_CONTENT).apply {
-                id = View.generateViewId()
-                topToTop = conLayout.id
-                startToEnd = movieInputBox.id
-                endToEnd = conLayout.id
-            }
-        }
-        conLayout.addView(tvShowInputBox)
 
-        movieButton.apply {
-            text="Search Movie"
-            layoutParams = ConstraintLayout.LayoutParams(400, WRAP_CONTENT).apply {
-                id = View.generateViewId()
-                topToBottom = movieInputBox.id
-                startToStart = conLayout.id
-                endToEnd = tvShowButton.id
-            }
+        addView(title)
+        tvShowInputBox.layoutParams = LayoutParams(400, WRAP_CONTENT).apply {
+            topToBottom = title.id
+            startToStart = this@SearchMovieTVShowView.id
         }
-        conLayout.addView(movieButton)
 
-        tvShowButton.apply {
-            text = "Search TV Show"
-            layoutParams = ConstraintLayout.LayoutParams(400, WRAP_CONTENT).apply {
-                id = View.generateViewId()
-                topToBottom = tvShowInputBox.id
-                startToEnd = movieButton.id
-                endToEnd = conLayout.id
-            }
+        addView(tvShowInputBox)
+
+        tvShowButton.layoutParams = LayoutParams(400, WRAP_CONTENT).apply {
+            topToBottom = title.id
+            startToEnd = tvShowInputBox.id
+            endToEnd = this@SearchMovieTVShowView.id
+
         }
-        conLayout.addView(tvShowButton)
+
+        addView(tvShowButton)
+        movieInputBox.layoutParams = LayoutParams(400, WRAP_CONTENT).apply {
+            topToBottom = tvShowInputBox.id
+            startToStart = this@SearchMovieTVShowView.id
+        }
+
+        addView(movieInputBox)
+
+
+        movieButton.layoutParams = LayoutParams(400, WRAP_CONTENT).apply {
+            topToBottom = tvShowButton.id
+            startToEnd = movieInputBox.id
+            endToEnd = this@SearchMovieTVShowView.id
+        }
+        addView(movieButton)
+
     }
 }

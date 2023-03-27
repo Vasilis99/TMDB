@@ -1,6 +1,11 @@
 package com.axiom.tmdb.fragments
 
+import android.content.Intent
+import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +14,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
@@ -20,9 +24,10 @@ import com.axiom.tmdb.TMDB
 import com.axiom.tmdb.adapters.TVShowCreatorAdapter
 import com.axiom.tmdb.adapters.TVShowProductionCompanyAdapter
 import com.axiom.tmdb.views.TVShowLastEpisodeView
-import com.axiom.tmdb.views.TVShowSpecialView
+import com.axiom.tmdb.views.SpecialView
 import com.axiom.tmdb.views.TVShowView
 import com.axiom.tmdb.views.TitleDescriptionView
+import com.axiomc.core.dslanguage.design.color.Theme.color
 
 class TVShowFragment : Fragment() {
     private var tID: Int = 0
@@ -58,7 +63,7 @@ class TVShowFragment : Fragment() {
             (tvShowViews[0] as TextView).text = tvShowDetails.name
             (tvShowViews[1] as ImageView).load("https://image.tmdb.org/t/p/original" + tvShowDetails.backdrop_path)
             println(tvShowDetails.backdrop_path)
-            var createdBy = tvShowViews[2] as TVShowSpecialView
+            var createdBy = tvShowViews[2] as SpecialView
             createdBy.title.text="Creators"
             if (tvShowDetails.created_by.isEmpty()) {
                 createdBy.addView(createdBy.unknown)
@@ -91,7 +96,14 @@ class TVShowFragment : Fragment() {
             genres.desc.text = genresString
             var homepage = tvShowViews[6] as TitleDescriptionView
             homepage.title.text = "Homepage"
-            homepage.desc.text = tvShowDetails.homepage
+
+            val spannableString = SpannableString("Go to homepage")
+            spannableString.setSpan(UnderlineSpan(),0,spannableString.length,0)
+            homepage.desc.color(Color.BLUE)
+            homepage.desc.text = spannableString
+            homepage.setOnClickListener {
+                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(tvShowDetails.homepage)))
+            }
             var tvShowID = tvShowViews[7] as TitleDescriptionView
             tvShowID.title.text = "TV Show ID"
             tvShowID.desc.text = tvShowDetails.id.toString()
@@ -208,7 +220,7 @@ class TVShowFragment : Fragment() {
 
             poster.load("https://image.tmdb.org/t/p/original" + tvShowDetails.poster_path)
 
-            var productionCompanies = (tvShowViews[20] as TVShowSpecialView)
+            var productionCompanies = (tvShowViews[20] as SpecialView)
             productionCompanies.title.text="Production companies"
             if (tvShowDetails.production_companies.isEmpty()) {
                 productionCompanies.addView(productionCompanies.unknown)
@@ -219,6 +231,7 @@ class TVShowFragment : Fragment() {
                     LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 productionCompanies.recyclerView.adapter =
                     TVShowProductionCompanyAdapter(tvShowDetails.production_companies)
+
             }
 
             var productionCountries=tvShowViews[21] as TitleDescriptionView

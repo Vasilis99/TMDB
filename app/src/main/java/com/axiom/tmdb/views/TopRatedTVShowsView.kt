@@ -18,7 +18,7 @@ import com.axiomc.core.dslanguage.design.color.Theme.color
 class TopRatedTVShowsView(context: Context) : ConstraintLayout(context) {
     private val title = TextView(context).applyId().bold().color(Color.BLACK).text("Top rated TV Shows").size(20)
 
-    public val tvShowsRecyclerView = RecyclerView(context)
+    public val tvShowsRecyclerView = RecyclerView(context).applyId()
 
 
 
@@ -26,19 +26,19 @@ class TopRatedTVShowsView(context: Context) : ConstraintLayout(context) {
 
         applyId()
         layoutParams= LayoutParams(MATCH_PARENT, MATCH_PARENT)
-        title.layoutParams=ConstraintLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
+        title.layoutParams=LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
             topToTop=this@TopRatedTVShowsView.id
             startToStart=this@TopRatedTVShowsView.id
             endToEnd=this@TopRatedTVShowsView.id
+            setMargins(10,0,0,0)
         }
         addView(title)
         tvShowsRecyclerView.layoutParams =
-            ConstraintLayout.LayoutParams(MATCH_PARENT, 0).apply {
+            LayoutParams(MATCH_PARENT, 0).apply {
                 topToBottom=title.id
                 startToStart=this@TopRatedTVShowsView.id
                 endToEnd=this@TopRatedTVShowsView.id
                 bottomToBottom=this@TopRatedTVShowsView.id
-                setMargins(0,dp(20),0,0)
             }
         tvShowsRecyclerView.addItemDecoration(MyItemDecoration(20))
 

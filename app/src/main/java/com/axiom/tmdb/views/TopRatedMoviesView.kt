@@ -23,27 +23,28 @@ class TopRatedMoviesView(context: Context) : ConstraintLayout(context) {
     private val title =
         TextView(context).applyId().bold().color(Color.BLACK).text("Top rated Movies").size(20)
 
-    public val moviesRecyclerView = RecyclerView(context)
+    public val moviesRecyclerView = RecyclerView(context).applyId()
 
 
     init {
 
         applyId()
-        layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT)
+        layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
         title.layoutParams =
-            ConstraintLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
+            LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
                 topToTop = this@TopRatedMoviesView.id
                 startToStart = this@TopRatedMoviesView.id
                 endToEnd = this@TopRatedMoviesView.id
+                setMargins(dp(10),0,0,0)
             }
         addView(title)
         moviesRecyclerView.layoutParams =
-            ConstraintLayout.LayoutParams(MATCH_PARENT, 0).apply {
+            LayoutParams(MATCH_PARENT, 0).apply {
                 topToBottom = title.id
                 startToStart = this@TopRatedMoviesView.id
                 endToEnd = this@TopRatedMoviesView.id
                 bottomToBottom = this@TopRatedMoviesView.id
-                setMargins(0, dp(20), 0, 0)
+
             }
         moviesRecyclerView.addItemDecoration(MyItemDecoration(20))
 
