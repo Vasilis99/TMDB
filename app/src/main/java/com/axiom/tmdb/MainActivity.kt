@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 import androidx.preference.PreferenceManager
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
+import com.axiomc.core.AxiomConfig.appContext
 import com.google.android.material.tabs.TabItem
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayout.Tab
@@ -25,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var myLayout:FrameLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        appContext=applicationContext
         myLayout=  FrameLayout(this)
         myLayout.id= View.generateViewId()
         setContentView(myLayout)

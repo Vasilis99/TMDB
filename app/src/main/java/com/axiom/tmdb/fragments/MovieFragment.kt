@@ -24,6 +24,8 @@ import com.axiom.tmdb.views.CollectionView
 import com.axiom.tmdb.views.MovieView
 import com.axiom.tmdb.views.SpecialView
 import com.axiom.tmdb.views.TitleDescriptionView
+import koleton.api.hideSkeleton
+import koleton.api.loadSkeleton
 
 
 class MovieFragment : Fragment() {
@@ -61,7 +63,9 @@ class MovieFragment : Fragment() {
                 var adult=(movieMap["adult"] as TitleDescriptionView)
                 adult.title.text="Adult"
                 adult.desc.text=adultText
+                (movieMap["backdrop"] as ImageView).loadSkeleton()
                 (movieMap["backdrop"] as ImageView).load("https://image.tmdb.org/t/p/original"+movieDetails.backdrop_path)
+                (movieMap["backdrop"] as ImageView).hideSkeleton()
                 var collection=(movieMap["collection"] as CollectionView)
                 collection.title.text="Collection"
                 if(movieDetails.belongs_to_collection!=null) {

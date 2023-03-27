@@ -13,9 +13,11 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.axiom.tmdb.MainActivity
 import com.axiom.tmdb.MyApi
@@ -26,8 +28,14 @@ import com.axiom.tmdb.adapters.TVShowProductionCompanyAdapter
 import com.axiom.tmdb.views.TVShowLastEpisodeView
 import com.axiom.tmdb.views.SpecialView
 import com.axiom.tmdb.views.TVShowView
+import com.axiom.tmdb.views.TVShowsShimmer
 import com.axiom.tmdb.views.TitleDescriptionView
+import com.axiomc.core.caching.photo.PhotoLoader.photo
 import com.axiomc.core.dslanguage.design.color.Theme.color
+import koleton.Koleton
+import koleton.api.hideSkeleton
+import koleton.api.loadSkeleton
+import kotlinx.coroutines.delay
 
 class TVShowFragment : Fragment() {
     private var tID: Int = 0
@@ -56,13 +64,17 @@ class TVShowFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? = TVShowView(inflater.context).apply {
         lifecycleScope.launchWhenResumed {
+            tvShowsShimmer.startShimmer()
+
             val myApi = RetrofitHelper.getInstance().create(MyApi::class.java)
             var response = myApi.getTVShowDetails(tID)
-            println(response.raw())
             tvShowDetails = response.body()!!
+            val skeletonLoader = Koleton.skeletonLoader(context)
             (tvShowViews[0] as TextView).text = tvShowDetails.name
-            (tvShowViews[1] as ImageView).load("https://image.tmdb.org/t/p/original" + tvShowDetails.backdrop_path)
-            println(tvShowDetails.backdrop_path)
+            var image=tvShowViews[1] as ImageView
+
+            image.load("https://image.tmdb.org/t/p/original" + tvShowDetails.backdrop_path)
+            delay(1000)
             var createdBy = tvShowViews[2] as SpecialView
             createdBy.title.text="Creators"
             if (tvShowDetails.created_by.isEmpty()) {
@@ -153,7 +165,9 @@ class TVShowFragment : Fragment() {
                 overview.title.text = "Overview"
                 overview.desc.text = tvShowDetails.last_episode_to_air.overview
 
-                lastEpisodeAir.image.load("https://image.tmdb.org/t/p/original" + tvShowDetails.last_episode_to_air.still_path)
+                lastEpisodeAir.image.photo("https://image.tmdb.org/t/p/original" + tvShowDetails.last_episode_to_air.still_path){
+
+                }
 
                 lastEpisodeAir.addView(lastEpisodeAir.scrollView)
 
@@ -292,6 +306,9 @@ class TVShowFragment : Fragment() {
             voteCount.desc.text=tvShowDetails.vote_count.toString()
 
             var button=tvShowViews[28] as Button
+            tvShowsShimmer.stopShimmer()
+            removeView(tvShowsShimmer)
+            addView(linearLayout)
             button.setOnClickListener {
                 var tvShowReviewsFragment =
                     TVShowReviewsFragment.newInstance(tvShowDetails.id, tvShowDetails.name)

@@ -39,12 +39,8 @@ Y
 )app/src/main/java/com/axiom/tmdb/MyApi.kt,c\4\c441e67b190446088216f7c747c841937fea946a
 ^
 .app/src/main/java/com/axiom/tmdb/MyFragment.kt,0\4\048831d9d8b22eacdccb84d216194d86ee002fa7
-`
-0app/src/main/java/com/axiom/tmdb/MainActivity.kt,9\8\986fe430df7b8efd70cfbb8f7dff20300dfb310b
 j
 :app/src/main/java/com/axiom/tmdb/adapters/MoviesAdapter.kt,0\0\00f6d9afd13ded5d735acba9fd2c602f53709a46
-k
-;app/src/main/java/com/axiom/tmdb/adapters/TVShowsAdapter.kt,d\b\db5d910bb52ac0da3e02d8dbf1d1cb518a85c758
 d
 4app/src/main/java/com/axiom/tmdb/MyItemDecoration.kt,0\0\00f71e859230b813f378127b93670649a8966f2c
 e

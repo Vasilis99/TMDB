@@ -6,7 +6,9 @@ import coil.load
 import com.axiom.tmdb.FavoriteManager
 import com.axiom.tmdb.TMDB
 import com.axiom.tmdb.views.RecyclerViewItemView
+import com.axiomc.core.components.generic.Skeletons.applySkelly
 import com.axiomc.tmdb.R
+import koleton.Koleton
 
 class TVShowsAdapter(
     private var tvShows: MutableList<TMDB.TVShowBasic>,
@@ -37,6 +39,8 @@ class TVShowsAdapter(
                 holder.view.setBackgroundResource(R.color.gray_2)
             }
         }
+
+
 
         holder.view.image.load("https://image.tmdb.org/t/p/w342" + listTVShows[position].poster_path)
         "${(position + 1)} ".also { holder.view.pos.text = it }

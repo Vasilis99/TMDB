@@ -17,6 +17,9 @@ import com.axiom.tmdb.TMDB
 import com.axiom.tmdb.adapters.TVShowsAdapter
 import com.axiom.tmdb.views.TopRatedTVShowsView
 import com.axiomc.core.dslanguage.design.Recycler.onScrollBoundBot
+import koleton.Koleton
+import koleton.api.hideSkeleton
+import koleton.api.loadSkeleton
 
 
 class TopRatedTVShowsFragment : Fragment() {
@@ -53,6 +56,8 @@ class TopRatedTVShowsFragment : Fragment() {
                 var f=favorites
                 tvShowsRecyclerView.layoutManager =
                     LinearLayoutManager(context)
+                val skeletonLoader = Koleton.skeletonLoader(context)
+                tvShowsRecyclerView.loadSkeleton(skeletonLoader)
                 tvShowsRecyclerView.adapter =
                     TVShowsAdapter(tvShows, favorites,{ tvShowID ->
                         for (x in tvShows) {
@@ -76,11 +81,14 @@ class TopRatedTVShowsFragment : Fragment() {
                     },{ tvShow->
                         f.deleteTVShowFavorites(tvShow)
                     })
+               tvShowsRecyclerView.hideSkeleton()
                 tvShowsRecyclerView.onScrollBoundBot {
+
                     pageCount++
                     println("Page count $pageCount")
                     if(pageCount!=totalPages) {
                         lifecycleScope.launchWhenResumed {
+                            tvShowsRecyclerView.loadSkeleton(skeletonLoader)
                             var listLength = tvShows.size
                             val resp =
                                 myApi.getTopTVShows("287f6ab6616e3724955e2b4c6841ea63", pageCount)
@@ -93,6 +101,7 @@ class TopRatedTVShowsFragment : Fragment() {
                             adapter.listTVShows = tvShows
                             var diff = tvShows.size - listLength
                             adapter.notifyItemRangeChanged(listLength, diff)
+                            tvShowsRecyclerView.hideSkeleton()
                         }
                     }
                 }
