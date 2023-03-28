@@ -40,7 +40,7 @@ class TopRatedTVShowsView(context: Context) : ConstraintLayout(context) {
                 endToEnd=this@TopRatedTVShowsView.id
                 bottomToBottom=this@TopRatedTVShowsView.id
             }
-        tvShowsRecyclerView.addItemDecoration(MyItemDecoration(20))
+        tvShowsRecyclerView.addItemDecoration(MyItemDecoration(20,20,20))
 
         addView(tvShowsRecyclerView)
 

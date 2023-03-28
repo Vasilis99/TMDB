@@ -1,22 +1,24 @@
 package com.axiom.tmdb
 
+import android.graphics.Canvas
 import android.graphics.Rect
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class MyItemDecoration(var space:Int): RecyclerView.ItemDecoration() {
+class MyItemDecoration(var left:Int,var right:Int,var bottom:Int): RecyclerView.ItemDecoration() {
     override fun getItemOffsets(
         outRect: Rect,
         view: View,
         parent: RecyclerView,
         state: RecyclerView.State
     ) {
-        outRect.bottom=space
-        outRect.left=space
-        outRect.right=space
+        outRect.bottom=bottom
+        outRect.left=left
+        outRect.right=right
 
-        if(parent.getChildAdapterPosition(view) == 0) {
-            outRect.top = space;
-        }
+    }
+
+    override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State) {
+        super.onDraw(c, parent, state)
     }
 }

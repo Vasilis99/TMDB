@@ -14,6 +14,7 @@ import androidx.core.view.marginTop
 import androidx.recyclerview.widget.RecyclerView
 import com.axiomc.core.components.text.AxiomEditText
 import com.axiomc.core.dslanguage.constraint.Helpers.applyId
+import com.axiomc.core.dslanguage.conversion.Space.dp
 import com.axiomc.core.dslanguage.design.Text.bold
 import com.axiomc.core.dslanguage.design.Text.size
 import com.axiomc.core.dslanguage.design.Text.text
@@ -27,35 +28,36 @@ import kotlinx.coroutines.awaitAll
 class SearchMovieTVShowView(context: Context) : ConstraintLayout(context) {
     var title = TextView(context).applyId().bold().color(Color.BLACK).text("Search Movies-TV Shows")
         .size(20).applyId()
-    var movieInputBox = AxiomEditText(context).applyId()
-    var movieButton = Button(context).applyId().text("Search TV Show")
     var tvShowInputBox = AxiomEditText(context).applyId()
-    var tvShowButton = Button(context).applyId().text("Search Movie")
-
+    var tvShowButton = Button(context).applyId().text("Search TV Show")
+    var movieInputBox = AxiomEditText(context).applyId()
+    var movieButton = Button(context).applyId().text("Search Movie")
     init {
         id = generateViewId()
-        layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT).apply {
-            setMargins(50,0,0,50)
-        }
+        layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
 
         title.layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
             topToTop = this@SearchMovieTVShowView.id
             startToStart = this@SearchMovieTVShowView.id
             endToEnd = this@SearchMovieTVShowView.id
+            setMargins(dp(10),0,0,0)
         }
 
         addView(title)
         tvShowInputBox.layoutParams = LayoutParams(400, WRAP_CONTENT).apply {
             topToBottom = title.id
             startToStart = this@SearchMovieTVShowView.id
+            endToStart=tvShowButton.id
         }
 
         addView(tvShowInputBox)
 
         tvShowButton.layoutParams = LayoutParams(400, WRAP_CONTENT).apply {
             topToBottom = title.id
-            startToEnd = tvShowInputBox.id
             endToEnd = this@SearchMovieTVShowView.id
+            startToEnd = tvShowInputBox.id
+
+
 
         }
 
@@ -63,6 +65,8 @@ class SearchMovieTVShowView(context: Context) : ConstraintLayout(context) {
         movieInputBox.layoutParams = LayoutParams(400, WRAP_CONTENT).apply {
             topToBottom = tvShowInputBox.id
             startToStart = this@SearchMovieTVShowView.id
+            endToStart=movieButton.id
+
         }
 
         addView(movieInputBox)

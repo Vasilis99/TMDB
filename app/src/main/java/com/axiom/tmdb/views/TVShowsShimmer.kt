@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.Button
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.axiomc.core.dslanguage.constraint.Helpers.applyId
 import com.axiomc.core.dslanguage.conversion.Space.dp
 import com.axiomc.core.dslanguage.design.Text.bold
@@ -22,14 +24,22 @@ import com.facebook.shimmer.ShimmerFrameLayout
 class TVShowsShimmer(context: Context) : ShimmerFrameLayout(context) {
     var tvShowViews:MutableList<View> = mutableListOf()
     var linearLayout = LinearLayout(context).applyId()
+    var scrollView = ScrollView(context).applyId()
     init{
         applyId()
         layoutParams= LayoutParams(MATCH_PARENT, MATCH_PARENT)
+        scrollView.layoutParams= LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+        linearLayout.layoutParams= LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         tvShowViews.add(TextView(context).applyId().color(Color.BLACK).bold().size(22).apply {
             setBackgroundColor(Color.GRAY)
         })
-        tvShowViews.add(ImageView(context).applyId().apply {
+        tvShowViews.add(ConstraintLayout(context).applyId().apply {
             setBackgroundColor(Color.GRAY)
+            layoutParams=LinearLayout.LayoutParams(400,400).apply {
+                minHeight=dp(250)
+
+            }
+
         })
         tvShowViews.add(SpecialView(context).apply {
             setBackgroundColor(Color.GRAY)
@@ -51,6 +61,9 @@ class TVShowsShimmer(context: Context) : ShimmerFrameLayout(context) {
         }
         tvShowViews.add(ImageView(context).applyId().apply{
             setBackgroundColor(Color.GRAY)
+            layoutParams=LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
+                minimumHeight=dp(250)
+            }
         })
         tvShowViews.add(SpecialView(context))
 
@@ -60,7 +73,7 @@ class TVShowsShimmer(context: Context) : ShimmerFrameLayout(context) {
             })
         }
 
-        tvShowViews.add(Button(context).applyId().text("Reviews").apply {
+        tvShowViews.add(Button(context).applyId().apply {
             layoutParams=LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         })
         linearLayout.apply {
@@ -72,6 +85,8 @@ class TVShowsShimmer(context: Context) : ShimmerFrameLayout(context) {
         for(x in tvShowViews){
             linearLayout.addView(x,linearLayout.layoutParams)
         }
-        addView(linearLayout)
+        scrollView.addView(linearLayout)
+        addView(scrollView)
+
     }
 }

@@ -1,7 +1,12 @@
 package com.axiom.tmdb.fragments
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.VectorDrawable
+import android.media.Image
 import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableString
@@ -13,6 +18,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -32,6 +38,7 @@ import com.axiom.tmdb.views.TVShowsShimmer
 import com.axiom.tmdb.views.TitleDescriptionView
 import com.axiomc.core.caching.photo.PhotoLoader.photo
 import com.axiomc.core.dslanguage.design.color.Theme.color
+import com.axiomc.tmdb.R
 import koleton.Koleton
 import koleton.api.hideSkeleton
 import koleton.api.loadSkeleton
@@ -64,17 +71,17 @@ class TVShowFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? = TVShowView(inflater.context).apply {
         lifecycleScope.launchWhenResumed {
-            tvShowsShimmer.startShimmer()
+           tvShowsShimmer.startShimmer()
 
             val myApi = RetrofitHelper.getInstance().create(MyApi::class.java)
             var response = myApi.getTVShowDetails(tID)
             tvShowDetails = response.body()!!
-            val skeletonLoader = Koleton.skeletonLoader(context)
+            //val skeletonLoader = Koleton.skeletonLoader(context)
             (tvShowViews[0] as TextView).text = tvShowDetails.name
             var image=tvShowViews[1] as ImageView
 
-            image.load("https://image.tmdb.org/t/p/original" + tvShowDetails.backdrop_path)
-            delay(1000)
+            image.photo("https://image.tmdb.org/t/p/original" + tvShowDetails.backdrop_path)
+
             var createdBy = tvShowViews[2] as SpecialView
             createdBy.title.text="Creators"
             if (tvShowDetails.created_by.isEmpty()) {
@@ -135,6 +142,7 @@ class TVShowFragment : Fragment() {
             lastAirDate.title.text = "Last air date"
             lastAirDate.desc.text = tvShowDetails.last_air_date
             var lastEpisodeAir = tvShowViews[11] as TVShowLastEpisodeView
+            lastEpisodeAir.title.text="Last Episode to Air"
             if (tvShowDetails.last_episode_to_air != null) {
                 var airDate = lastEpisodeAir.lastEpViews[0] as TitleDescriptionView
                 airDate.title.text = "Air Date"
@@ -161,9 +169,9 @@ class TVShowFragment : Fragment() {
                 voteCount.title.text = "Vote count"
                 voteCount.desc.text = tvShowDetails.last_episode_to_air.vote_count.toString()
 
-                var overview = lastEpisodeAir.overview as TitleDescriptionView
-                overview.title.text = "Overview"
-                overview.desc.text = tvShowDetails.last_episode_to_air.overview
+                var lastEpisodeOverview = lastEpisodeAir.overview as TitleDescriptionView
+                lastEpisodeOverview.title.text = "Overview"
+                lastEpisodeOverview.desc.text = tvShowDetails.last_episode_to_air.overview
 
                 lastEpisodeAir.image.photo("https://image.tmdb.org/t/p/original" + tvShowDetails.last_episode_to_air.still_path){
 
@@ -232,7 +240,7 @@ class TVShowFragment : Fragment() {
 
             var poster = tvShowViews[19] as ImageView
 
-            poster.load("https://image.tmdb.org/t/p/original" + tvShowDetails.poster_path)
+            poster.photo("https://image.tmdb.org/t/p/original" + tvShowDetails.poster_path)
 
             var productionCompanies = (tvShowViews[20] as SpecialView)
             productionCompanies.title.text="Production companies"
@@ -307,8 +315,9 @@ class TVShowFragment : Fragment() {
 
             var button=tvShowViews[28] as Button
             tvShowsShimmer.stopShimmer()
+            //tvShowsShimmer.hideSkeleton()
             removeView(tvShowsShimmer)
-            addView(linearLayout)
+            addView(recyclerView)
             button.setOnClickListener {
                 var tvShowReviewsFragment =
                     TVShowReviewsFragment.newInstance(tvShowDetails.id, tvShowDetails.name)

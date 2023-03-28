@@ -13,8 +13,13 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.RecyclerView
+import com.axiom.tmdb.MyItemDecoration
+import com.axiomc.core.components.generic.LazyConcat.bind
 import com.axiomc.core.dslanguage.constraint.Helpers.applyId
 import com.axiomc.core.dslanguage.conversion.Space.dp
+import com.axiomc.core.dslanguage.design.Recycler.lazyAdd
+import com.axiomc.core.dslanguage.design.Recycler.vLinear
 import com.axiomc.core.dslanguage.design.Text.bold
 import com.axiomc.core.dslanguage.design.Text.size
 import com.axiomc.core.dslanguage.design.Text.text
@@ -22,18 +27,15 @@ import com.axiomc.core.dslanguage.design.color.Theme.color
 import com.axiomc.core.dslanguage.utility.Layout.margins
 
 
-class MovieView(context: Context) : ScrollView(context) {
+class MovieView(context: Context) : ConstraintLayout(context) {
     var movieMap: MutableMap<String, View> = mutableMapOf<String, View>()
-    var linearLayout = LinearLayout(context).applyId()
+    var recyclerView = RecyclerView(context).applyId()
 
     init {
         applyId()
-        layoutParams= LayoutParams(MATCH_PARENT, MATCH_PARENT)
-        linearLayout.orientation=LinearLayout.VERTICAL
+        recyclerView.layoutParams= LayoutParams(MATCH_PARENT, MATCH_PARENT)
+        recyclerView.addItemDecoration(MyItemDecoration(10,10,dp(20)))
 
-        linearLayout.layoutParams= LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
-            setMargins(10,0,10,dp(20))
-        }
 
         movieMap["title"] = TextView(context).applyId().color(Color.BLACK).bold().size(22)
         movieMap["adult"] = TitleDescriptionView(context).vertical()
@@ -59,11 +61,11 @@ class MovieView(context: Context) : ScrollView(context) {
         movieMap["voteCount"] = TitleDescriptionView(context).vertical()
         movieMap["reviewsButton"] = Button(context).text("Reviews").applyId()
 
-
-        addView(linearLayout)
-        movieMap.forEach {
-            linearLayout.addView(it.value,linearLayout.layoutParams)
+        recyclerView.vLinear.lazyAdd{
+            movieMap.forEach {
+                add(it.value)
+            }
         }
-
+        addView(recyclerView)
     }
 }

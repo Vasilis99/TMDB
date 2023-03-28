@@ -1,9 +1,6 @@
 package com.axiom.tmdb.fragments
 
-import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Bundle
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +11,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import coil.load
 import com.axiom.tmdb.MainActivity
 import com.axiom.tmdb.MyApi
 import com.axiom.tmdb.RetrofitHelper
@@ -24,8 +20,7 @@ import com.axiom.tmdb.views.CollectionView
 import com.axiom.tmdb.views.MovieView
 import com.axiom.tmdb.views.SpecialView
 import com.axiom.tmdb.views.TitleDescriptionView
-import koleton.api.hideSkeleton
-import koleton.api.loadSkeleton
+import com.axiomc.core.caching.photo.PhotoLoader.photo
 
 
 class MovieFragment : Fragment() {
@@ -63,14 +58,13 @@ class MovieFragment : Fragment() {
                 var adult=(movieMap["adult"] as TitleDescriptionView)
                 adult.title.text="Adult"
                 adult.desc.text=adultText
-                (movieMap["backdrop"] as ImageView).loadSkeleton()
-                (movieMap["backdrop"] as ImageView).load("https://image.tmdb.org/t/p/original"+movieDetails.backdrop_path)
-                (movieMap["backdrop"] as ImageView).hideSkeleton()
+                (movieMap["backdrop"] as ImageView).photo("https://image.tmdb.org/t/p/original"+movieDetails.backdrop_path)
+
                 var collection=(movieMap["collection"] as CollectionView)
                 collection.title.text="Collection"
                 if(movieDetails.belongs_to_collection!=null) {
                     collection.name.text=movieDetails.belongs_to_collection.name
-                    collection.image.load("https://image.tmdb.org/t/p/w300"+movieDetails.belongs_to_collection.backdrop_path)
+                    collection.image.photo("https://image.tmdb.org/t/p/w300"+movieDetails.belongs_to_collection.backdrop_path)
                     collection.addView(collection.name)
                     collection.addView(collection.image)
                 }

@@ -46,7 +46,9 @@ class TopRatedMoviesView(context: Context) : ConstraintLayout(context) {
                 bottomToBottom = this@TopRatedMoviesView.id
 
             }
-        moviesRecyclerView.addItemDecoration(MyItemDecoration(20))
+        moviesRecyclerView.addItemDecoration(MyItemDecoration(20,20,20))
+
+
 
         addView(moviesRecyclerView)
 

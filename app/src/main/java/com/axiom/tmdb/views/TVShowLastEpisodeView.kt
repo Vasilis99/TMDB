@@ -20,7 +20,7 @@ import com.axiomc.core.dslanguage.design.Text.text
 import com.axiomc.core.dslanguage.design.color.Theme.color
 
 class TVShowLastEpisodeView(context: Context) : ConstraintLayout(context) {
-    var title=TextView(context).applyId().bold().color(Color.BLACK).text("Last episode to air").size(14)
+    var title=TextView(context).applyId().bold().color(Color.BLACK).size(14)
     var scrollView=HorizontalScrollView(context).applyId()
     var smallConLayout = ConstraintLayout(context).applyId()
     var linLayout = LinearLayout(context).applyId()
