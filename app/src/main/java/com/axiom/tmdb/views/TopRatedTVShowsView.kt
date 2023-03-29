@@ -1,5 +1,6 @@
 package com.axiom.tmdb.views
 
+import RecyclerViewShimmer
 import android.content.Context
 import android.graphics.Color
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
@@ -19,7 +20,7 @@ class TopRatedTVShowsView(context: Context) : ConstraintLayout(context) {
     private val title = TextView(context).applyId().bold().color(Color.BLACK).text("Top rated TV Shows").size(20)
 
     public val tvShowsRecyclerView = RecyclerView(context).applyId()
-
+    public val shimmer=RecyclerViewShimmer(context).applyId()
 
 
     init {
@@ -43,6 +44,16 @@ class TopRatedTVShowsView(context: Context) : ConstraintLayout(context) {
         tvShowsRecyclerView.addItemDecoration(MyItemDecoration(20,20,20))
 
         addView(tvShowsRecyclerView)
+
+        shimmer.layoutParams =
+            LayoutParams(MATCH_PARENT, 0).apply {
+                topToBottom=title.id
+                startToStart=this@TopRatedTVShowsView.id
+                endToEnd=this@TopRatedTVShowsView.id
+                bottomToBottom=this@TopRatedTVShowsView.id
+            }
+        tvShowsRecyclerView.visibility= INVISIBLE
+        addView(shimmer)
 
     }
 

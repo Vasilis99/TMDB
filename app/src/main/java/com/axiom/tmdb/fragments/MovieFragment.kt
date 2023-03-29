@@ -33,9 +33,8 @@ class MovieFragment : Fragment() {
         val bundle = arguments
         if (bundle != null && bundle.containsKey("movieID")) {
             mID = bundle.getInt("movieID")
-            println("Epiase to bundle")
         } else if (bundle == null) {
-            Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show()
         }
     }
     override fun onCreateView(

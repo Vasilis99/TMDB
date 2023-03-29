@@ -20,6 +20,7 @@ import com.axiomc.core.dslanguage.design.Recycler.onScrollBoundBot
 import koleton.Koleton
 import koleton.api.hideSkeleton
 import koleton.api.loadSkeleton
+import kotlinx.coroutines.delay
 
 
 class TopRatedTVShowsFragment : Fragment() {
@@ -45,6 +46,7 @@ class TopRatedTVShowsFragment : Fragment() {
         TopRatedTVShowsView(it).apply {
             val myApi = RetrofitHelper.getInstance().create(MyApi::class.java)
             lifecycleScope.launchWhenResumed {
+                shimmer.startShimmer()
                 val response = myApi.getTopTVShows("287f6ab6616e3724955e2b4c6841ea63",1)
                 totalPages=response.body()!!.total_pages
                 var results = response.body()!!.results
@@ -113,7 +115,9 @@ class TopRatedTVShowsFragment : Fragment() {
                     adapter.notifyDataSetChanged()
                 }
                 favorites.getTVShowsFavorites().observe(viewLifecycleOwner,favObserver)
-
+                shimmer.stopShimmer()
+                shimmer.visibility=View.INVISIBLE
+                tvShowsRecyclerView.visibility=View.VISIBLE
             }
         }
     }

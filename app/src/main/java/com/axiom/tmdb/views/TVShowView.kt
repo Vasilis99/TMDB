@@ -33,15 +33,15 @@ import com.axiomc.tmdb.R
 import top.defaults.drawabletoolbox.setDrawable
 
 class TVShowView(context: Context) : ConstraintLayout(context) {
-    var tvShowViews:MutableList<View> = mutableListOf()
+    var tvShowViews: MutableList<View> = mutableListOf()
     var linearLayout = LinearLayout(context).applyId()
-    var recyclerView= RecyclerView(context).applyId()
-    var tvShowsShimmer=TVShowsShimmer(context)
+    var recyclerView = RecyclerView(context).applyId()
+    var tvShowsShimmer = TVShowsShimmer(context)
 
-    init{
+    init {
 
-        recyclerView.layoutParams= LayoutParams(MATCH_PARENT, MATCH_PARENT)
-        recyclerView.addItemDecoration(MyItemDecoration(10,10,dp(20)))
+        recyclerView.layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
+        recyclerView.addItemDecoration(MyItemDecoration(10, 10, dp(20)))
 
         tvShowViews.add(TextView(context).color(Color.BLACK).bold().size(22))
 
@@ -50,44 +50,44 @@ class TVShowView(context: Context) : ConstraintLayout(context) {
         tvShowViews.add(SpecialView(context))
 
 
-        for(i in 3 .. 10){
+        for (i in 3..10) {
             tvShowViews.add(TitleDescriptionView(context).vertical())
         }
         tvShowViews.add(TVShowLastEpisodeView(context))
 
-        for(i in 12 .. 18){
+        for (i in 12..18) {
             tvShowViews.add(TitleDescriptionView(context).vertical())
         }
         tvShowViews.add(ImageView(context).applyId().scale(ImageView.ScaleType.FIT_CENTER))
         tvShowViews.add(SpecialView(context))
 
-        for(i in 21 .. 27){
+        for (i in 21..27) {
             tvShowViews.add(TitleDescriptionView(context).vertical())
         }
 
         tvShowViews.add(Button(context).applyId().text("Reviews").apply {
-            layoutParams=LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+            layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         })
         linearLayout.apply {
-            orientation=LinearLayout.VERTICAL
-            layoutParams=LayoutParams(MATCH_PARENT,WRAP_CONTENT).apply {
-                setMargins(10,0,10,dp(20))
+            orientation = LinearLayout.VERTICAL
+            layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
+                setMargins(10, 0, 10, dp(20))
             }
         }
 
-        recyclerView.vLinear.lazyAdd{
-                for(i in 0 ..28) {
-                    if(i==1){
-                        add(tvShowViews[1].bind {
-                            height= dp(250)
-                        })
-                    }
-                    else{
-                        add(tvShowViews[i])
-                    }
+        recyclerView.vLinear.lazyAdd {
+            for (i in 0..28) {
+                if (i == 1) {
+                    add(tvShowViews[1].bind {
+                        height = dp(250)
+                    })
+                } else {
+                    add(tvShowViews[i])
                 }
+            }
         }
-
-       addView(tvShowsShimmer)
+        recyclerView.visibility= INVISIBLE
+        addView(recyclerView)
+        addView(tvShowsShimmer)
     }
 }

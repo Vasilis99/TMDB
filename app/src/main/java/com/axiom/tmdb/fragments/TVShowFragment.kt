@@ -13,6 +13,9 @@ import android.text.SpannableString
 import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
@@ -39,6 +42,7 @@ import com.axiom.tmdb.views.TitleDescriptionView
 import com.axiomc.core.caching.photo.PhotoLoader.photo
 import com.axiomc.core.dslanguage.design.color.Theme.color
 import com.axiomc.tmdb.R
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException
 import koleton.Koleton
 import koleton.api.hideSkeleton
 import koleton.api.loadSkeleton
@@ -79,7 +83,7 @@ class TVShowFragment : Fragment() {
             //val skeletonLoader = Koleton.skeletonLoader(context)
             (tvShowViews[0] as TextView).text = tvShowDetails.name
             var image=tvShowViews[1] as ImageView
-
+            delay(10000)
             image.photo("https://image.tmdb.org/t/p/original" + tvShowDetails.backdrop_path)
 
             var createdBy = tvShowViews[2] as SpecialView
@@ -316,8 +320,8 @@ class TVShowFragment : Fragment() {
             var button=tvShowViews[28] as Button
             tvShowsShimmer.stopShimmer()
             //tvShowsShimmer.hideSkeleton()
-            removeView(tvShowsShimmer)
-            addView(recyclerView)
+            tvShowsShimmer.visibility= INVISIBLE
+            recyclerView.visibility=VISIBLE
             button.setOnClickListener {
                 var tvShowReviewsFragment =
                     TVShowReviewsFragment.newInstance(tvShowDetails.id, tvShowDetails.name)

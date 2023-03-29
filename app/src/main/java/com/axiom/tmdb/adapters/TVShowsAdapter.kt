@@ -6,7 +6,9 @@ import coil.load
 import com.axiom.tmdb.FavoriteManager
 import com.axiom.tmdb.TMDB
 import com.axiom.tmdb.views.RecyclerViewItemView
+import com.axiomc.core.caching.photo.PhotoLoader.photo
 import com.axiomc.core.components.generic.Skeletons.applySkelly
+import com.axiomc.core.dslanguage.design.Image.image
 import com.axiomc.tmdb.R
 import koleton.Koleton
 
