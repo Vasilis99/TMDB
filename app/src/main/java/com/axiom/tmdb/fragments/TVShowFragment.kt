@@ -1,19 +1,13 @@
 package com.axiom.tmdb.fragments
 
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.VectorDrawable
-import android.media.Image
 import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
@@ -21,12 +15,9 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.axiom.tmdb.MainActivity
 import com.axiom.tmdb.MyApi
@@ -37,15 +28,10 @@ import com.axiom.tmdb.adapters.TVShowProductionCompanyAdapter
 import com.axiom.tmdb.views.TVShowLastEpisodeView
 import com.axiom.tmdb.views.SpecialView
 import com.axiom.tmdb.views.TVShowView
-import com.axiom.tmdb.views.TVShowsShimmer
 import com.axiom.tmdb.views.TitleDescriptionView
 import com.axiomc.core.caching.photo.PhotoLoader.photo
 import com.axiomc.core.dslanguage.design.color.Theme.color
 import com.axiomc.tmdb.R
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException
-import koleton.Koleton
-import koleton.api.hideSkeleton
-import koleton.api.loadSkeleton
 import kotlinx.coroutines.delay
 
 class TVShowFragment : Fragment() {
@@ -76,16 +62,16 @@ class TVShowFragment : Fragment() {
     ): View? = TVShowView(inflater.context).apply {
         lifecycleScope.launchWhenResumed {
            tvShowsShimmer.startShimmer()
-
             val myApi = RetrofitHelper.getInstance().create(MyApi::class.java)
             var response = myApi.getTVShowDetails(tID)
             tvShowDetails = response.body()!!
-            //val skeletonLoader = Koleton.skeletonLoader(context)
             (tvShowViews[0] as TextView).text = tvShowDetails.name
             var image=tvShowViews[1] as ImageView
-            delay(10000)
-            image.photo("https://image.tmdb.org/t/p/original" + tvShowDetails.backdrop_path)
 
+            image.load("https://image.tmdb.org/t/p/original" + tvShowDetails.backdrop_path){
+                placeholder(R.drawable.my_placeholder)
+            }
+            println("height="+image.height+"\nwidth="+image.width)
             var createdBy = tvShowViews[2] as SpecialView
             createdBy.title.text="Creators"
             if (tvShowDetails.created_by.isEmpty()) {
@@ -169,7 +155,7 @@ class TVShowFragment : Fragment() {
                 voteAverage.title.text = "Vote average"
                 voteAverage.desc.text = tvShowDetails.last_episode_to_air.vote_average.toString()
 
-                var voteCount = lastEpisodeAir.lastEpViews[4] as TitleDescriptionView
+                var voteCount = lastEpisodeAir.lastEpViews[5] as TitleDescriptionView
                 voteCount.title.text = "Vote count"
                 voteCount.desc.text = tvShowDetails.last_episode_to_air.vote_count.toString()
 
@@ -177,7 +163,7 @@ class TVShowFragment : Fragment() {
                 lastEpisodeOverview.title.text = "Overview"
                 lastEpisodeOverview.desc.text = tvShowDetails.last_episode_to_air.overview
 
-                lastEpisodeAir.image.photo("https://image.tmdb.org/t/p/original" + tvShowDetails.last_episode_to_air.still_path){
+                lastEpisodeAir.image.load("https://image.tmdb.org/t/p/original" + tvShowDetails.last_episode_to_air.still_path){
 
                 }
 
@@ -244,7 +230,7 @@ class TVShowFragment : Fragment() {
 
             var poster = tvShowViews[19] as ImageView
 
-            poster.photo("https://image.tmdb.org/t/p/original" + tvShowDetails.poster_path)
+            poster.load("https://image.tmdb.org/t/p/original" + tvShowDetails.poster_path)
 
             var productionCompanies = (tvShowViews[20] as SpecialView)
             productionCompanies.title.text="Production companies"
@@ -319,6 +305,8 @@ class TVShowFragment : Fragment() {
 
             var button=tvShowViews[28] as Button
             tvShowsShimmer.stopShimmer()
+
+            println(poster.width.toString()+'\n'+poster.height)
             //tvShowsShimmer.hideSkeleton()
             tvShowsShimmer.visibility= INVISIBLE
             recyclerView.visibility=VISIBLE

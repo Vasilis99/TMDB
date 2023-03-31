@@ -12,6 +12,7 @@ import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.axiom.tmdb.MyItemDecoration
+import com.axiom.tmdb.views.shimmer.RecyclerViewShimmer
 import com.axiomc.core.dslanguage.constraint.Helpers.applyId
 import com.axiomc.core.dslanguage.conversion.Space.dp
 import com.axiomc.core.dslanguage.design.Text.bold
@@ -24,7 +25,7 @@ class TopRatedMoviesView(context: Context) : ConstraintLayout(context) {
         TextView(context).applyId().bold().color(Color.BLACK).text("Top rated Movies").size(20)
 
     public val moviesRecyclerView = RecyclerView(context).applyId()
-
+    public val shimmer=RecyclerViewShimmer(context).applyId()
 
     init {
 
@@ -48,9 +49,18 @@ class TopRatedMoviesView(context: Context) : ConstraintLayout(context) {
             }
         moviesRecyclerView.addItemDecoration(MyItemDecoration(20,20,20))
 
-
-
+        shimmer.layoutParams =
+            LayoutParams(MATCH_PARENT, 0).apply {
+                topToBottom=title.id
+                startToStart=this@TopRatedMoviesView.id
+                endToEnd=this@TopRatedMoviesView.id
+                bottomToBottom=this@TopRatedMoviesView.id
+            }
+        moviesRecyclerView.visibility= INVISIBLE
         addView(moviesRecyclerView)
+        addView(shimmer)
+
+
 
     }
 }

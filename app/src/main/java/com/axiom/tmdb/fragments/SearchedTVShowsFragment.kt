@@ -79,7 +79,7 @@ class SearchedTVShowsFragment:Fragment() {
                         f.addTVShowFavorites(tvShow)
                     },{ tvShow->
                         f.deleteTVShowFavorites(tvShow)
-                    })
+                    },context)
 
 
                 var favObserver= Observer<List<Triple<Int, String, String>>> {updated->

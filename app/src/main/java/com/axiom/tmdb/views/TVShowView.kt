@@ -1,36 +1,32 @@
 package com.axiom.tmdb.views
 
+import android.app.Activity
 import android.content.Context
 import android.graphics.Color
-import android.graphics.drawable.Drawable
+import android.util.DisplayMetrics
 import android.view.View
-import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.Button
-import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.ImageView.ScaleType
 import android.widget.LinearLayout
-import android.widget.ScrollView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.axiom.tmdb.MyItemDecoration
+import com.axiom.tmdb.views.shimmer.TVShowsShimmer
 import com.axiomc.core.components.generic.LazyConcat.bind
 import com.axiomc.core.dslanguage.constraint.Helpers.applyId
 import com.axiomc.core.dslanguage.conversion.Space.dp
-import com.axiomc.core.dslanguage.design.Image.scale
 import com.axiomc.core.dslanguage.design.Recycler.lazyAdd
-import com.axiomc.core.dslanguage.design.Recycler.lazyScale
 import com.axiomc.core.dslanguage.design.Recycler.vLinear
 import com.axiomc.core.dslanguage.design.Text.bold
 import com.axiomc.core.dslanguage.design.Text.size
 import com.axiomc.core.dslanguage.design.Text.text
 import com.axiomc.core.dslanguage.design.color.Theme.color
-import com.axiomc.tmdb.R
 
-import top.defaults.drawabletoolbox.setDrawable
 
 class TVShowView(context: Context) : ConstraintLayout(context) {
     var tvShowViews: MutableList<View> = mutableListOf()
@@ -46,7 +42,9 @@ class TVShowView(context: Context) : ConstraintLayout(context) {
         tvShowViews.add(TextView(context).color(Color.BLACK).bold().size(22))
 
 
-        tvShowViews.add(ImageView(context).scale(ImageView.ScaleType.FIT_CENTER))
+        tvShowViews.add(ImageView(context).applyId().apply {
+            scaleType = ScaleType.FIT_CENTER
+        })
         tvShowViews.add(SpecialView(context))
 
 
@@ -58,7 +56,7 @@ class TVShowView(context: Context) : ConstraintLayout(context) {
         for (i in 12..18) {
             tvShowViews.add(TitleDescriptionView(context).vertical())
         }
-        tvShowViews.add(ImageView(context).applyId().scale(ImageView.ScaleType.FIT_CENTER))
+        tvShowViews.add(ImageView(context).applyId())
         tvShowViews.add(SpecialView(context))
 
         for (i in 21..27) {
@@ -74,19 +72,22 @@ class TVShowView(context: Context) : ConstraintLayout(context) {
                 setMargins(10, 0, 10, dp(20))
             }
         }
-
+        var dpi=resources.displayMetrics.ydpi
         recyclerView.vLinear.lazyAdd {
             for (i in 0..28) {
-                if (i == 1) {
-                    add(tvShowViews[1].bind {
-                        height = dp(250)
-                    })
-                } else {
+                if(i==1){
+                   add(tvShowViews[i].bind {
+                       height= 596
+                       width= MATCH_PARENT
+                   })
+                }
+                else{
                     add(tvShowViews[i])
                 }
             }
         }
-        recyclerView.visibility= INVISIBLE
+
+        recyclerView.visibility = INVISIBLE
         addView(recyclerView)
         addView(tvShowsShimmer)
     }

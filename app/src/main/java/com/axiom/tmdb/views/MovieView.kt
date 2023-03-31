@@ -15,6 +15,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.axiom.tmdb.MyItemDecoration
+import com.axiom.tmdb.views.shimmer.MovieShimmer
 import com.axiomc.core.components.generic.LazyConcat.bind
 import com.axiomc.core.dslanguage.constraint.Helpers.applyId
 import com.axiomc.core.dslanguage.conversion.Space.dp
@@ -30,6 +31,7 @@ import com.axiomc.core.dslanguage.utility.Layout.margins
 class MovieView(context: Context) : ConstraintLayout(context) {
     var movieMap: MutableMap<String, View> = mutableMapOf<String, View>()
     var recyclerView = RecyclerView(context).applyId()
+    var movieShimmer=MovieShimmer(context)
 
     init {
         applyId()
@@ -39,7 +41,9 @@ class MovieView(context: Context) : ConstraintLayout(context) {
 
         movieMap["title"] = TextView(context).applyId().color(Color.BLACK).bold().size(22)
         movieMap["adult"] = TitleDescriptionView(context).vertical()
-        movieMap["backdrop"] = ImageView(context).applyId()
+        movieMap["backdrop"] = ImageView(context).applyId().apply {
+            layoutParams= LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
+        }
         movieMap["collection"] = CollectionView(context)
         movieMap["budget"] = TitleDescriptionView(context).vertical()
         movieMap["genres"] = TitleDescriptionView(context).vertical()
@@ -67,5 +71,7 @@ class MovieView(context: Context) : ConstraintLayout(context) {
             }
         }
         addView(recyclerView)
+        recyclerView.visibility= INVISIBLE
+        addView(movieShimmer)
     }
 }

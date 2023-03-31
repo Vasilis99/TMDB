@@ -1,4 +1,4 @@
-package com.axiom.tmdb.views
+package com.axiom.tmdb.views.shimmer
 
 
 import android.content.Context
@@ -7,25 +7,29 @@ import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.Button
-import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.axiomc.core.dslanguage.constraint.Helpers.add
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.axiom.tmdb.MyItemDecoration
+import com.axiom.tmdb.views.SpecialView
+import com.axiom.tmdb.views.TVShowLastEpisodeView
+import com.axiomc.core.components.generic.LazyConcat.bind
 import com.axiomc.core.dslanguage.constraint.Helpers.applyId
 import com.axiomc.core.dslanguage.conversion.Space.dp
+import com.axiomc.core.dslanguage.design.Recycler.lazyAdd
+import com.axiomc.core.dslanguage.design.Recycler.vLinear
 import com.axiomc.core.dslanguage.design.Text.bold
 import com.axiomc.core.dslanguage.design.Text.size
-import com.axiomc.core.dslanguage.design.Text.text
 import com.axiomc.core.dslanguage.design.color.Theme.color
 import com.facebook.shimmer.ShimmerFrameLayout
 
 class TVShowsShimmer(context: Context) : ShimmerFrameLayout(context) {
     var tvShowViews: MutableList<View> = mutableListOf()
-    var linearLayout = LinearLayout(context).applyId()
-    var scrollView = ScrollView(context).applyId()
+    var recyclerView=RecyclerView(context).applyId()
 
 
     private fun myShimmer(): ConstraintLayout {
@@ -33,13 +37,13 @@ class TVShowsShimmer(context: Context) : ShimmerFrameLayout(context) {
         var title = TextView(context).applyId().size(14)
         var desc = TextView(context).applyId()
         title.setBackgroundColor(Color.GRAY)
-        title.layoutParams = ConstraintLayout.LayoutParams(dp(100), WRAP_CONTENT).apply {
+        title.layoutParams = ConstraintLayout.LayoutParams(dp(200), WRAP_CONTENT).apply {
             topToTop = conLay.id
             startToStart = conLay.id
 
         }
         desc.setBackgroundColor(Color.GRAY)
-        desc.layoutParams = ConstraintLayout.LayoutParams(dp(100), WRAP_CONTENT).apply {
+        desc.layoutParams = ConstraintLayout.LayoutParams(dp(200), WRAP_CONTENT).apply {
             topToBottom = title.id
             bottomToBottom = conLay.id
             startToStart = conLay.id
@@ -63,7 +67,7 @@ class TVShowsShimmer(context: Context) : ShimmerFrameLayout(context) {
         }
         var linLayout = LinearLayout(context).applyId().apply {
             orientation = LinearLayout.HORIZONTAL
-            layoutParams = ConstraintLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply {
+            layoutParams = ConstraintLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
                 topToBottom = cTitle.id
                 startToStart = conLay.id
                 endToEnd = conLay.id
@@ -86,11 +90,11 @@ class TVShowsShimmer(context: Context) : ShimmerFrameLayout(context) {
             }
             var photo = ConstraintLayout(context).applyId().apply {
                 setBackgroundColor(Color.BLACK)
-                layoutParams = ConstraintLayout.LayoutParams(dp(200), dp(140)).apply {
+                layoutParams = ConstraintLayout.LayoutParams(185, 300).apply {
                     topToBottom = name.id
                     startToStart = creator.id
                     endToEnd = creator.id
-                    minHeight=dp(100)
+                    minHeight=dp(50)
                     setMargins(0, 10, 0, 0)
                 }
             }
@@ -108,23 +112,18 @@ class TVShowsShimmer(context: Context) : ShimmerFrameLayout(context) {
     init {
         applyId()
         layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
-        scrollView.layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        linearLayout.layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
+
         tvShowViews.add(TextView(context).applyId().color(Color.BLACK).bold().size(22).apply {
             setBackgroundColor(Color.GRAY)
-            layoutParams = LinearLayout.LayoutParams(dp(100), WRAP_CONTENT)
         })
         tvShowViews.add(ConstraintLayout(context).applyId().apply {
             setBackgroundColor(Color.GRAY)
-            layoutParams = LinearLayout.LayoutParams(400, 400).apply {
-                minHeight = dp(250)
-
-            }
+            layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT)
 
         })
-        tvShowViews.add(creators())
+        //tvShowViews.add(creators())
 
-        for (i in 3..10) {
+        for (i in 2..10) {
             tvShowViews.add(myShimmer())
         }
         tvShowViews.add(TVShowLastEpisodeView(context).apply {
@@ -136,9 +135,6 @@ class TVShowsShimmer(context: Context) : ShimmerFrameLayout(context) {
         }
         tvShowViews.add(ImageView(context).applyId().apply {
             setBackgroundColor(Color.GRAY)
-            layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
-                minimumHeight = dp(250)
-            }
         })
         tvShowViews.add(SpecialView(context))
 
@@ -149,17 +145,34 @@ class TVShowsShimmer(context: Context) : ShimmerFrameLayout(context) {
         tvShowViews.add(Button(context).applyId().apply {
             layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         })
-        linearLayout.apply {
-            orientation = LinearLayout.VERTICAL
-            layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
-                setMargins(10, 0, 10, dp(20))
+
+        recyclerView.addItemDecoration(MyItemDecoration(10,10,dp(20)))
+        recyclerView.layoutManager=object : LinearLayoutManager(context) { override fun canScrollVertically() = false}
+        recyclerView.lazyAdd {
+            for (i in 0..28) {
+                when (i) {
+                    0 -> {
+                        add(tvShowViews[i].bind {
+                            width = 800
+                        })
+                    }
+                    1 -> {
+                        add(tvShowViews[i].bind{
+                            height=596
+                        })
+                    }
+                    19 -> {
+                        add(tvShowViews[i].bind {
+                            height=1500
+                        })
+                    }
+                    else -> {
+                        add(tvShowViews[i])
+                    }
+                }
             }
         }
-        for (x in tvShowViews) {
-            linearLayout.addView(x, linearLayout.layoutParams)
-        }
-        scrollView.addView(linearLayout)
-        addView(scrollView)
+        addView(recyclerView)
 
     }
 }
