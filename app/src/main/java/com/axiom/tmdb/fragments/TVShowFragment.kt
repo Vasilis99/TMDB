@@ -15,6 +15,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -307,9 +308,10 @@ class TVShowFragment : Fragment() {
             tvShowsShimmer.stopShimmer()
 
             println(poster.width.toString()+'\n'+poster.height)
-            //tvShowsShimmer.hideSkeleton()
+
             tvShowsShimmer.visibility= INVISIBLE
             recyclerView.visibility=VISIBLE
+
             button.setOnClickListener {
                 var tvShowReviewsFragment =
                     TVShowReviewsFragment.newInstance(tvShowDetails.id, tvShowDetails.name)
@@ -318,7 +320,7 @@ class TVShowFragment : Fragment() {
 
                     var transaction =
                         activity?.supportFragmentManager?.beginTransaction()
-                    transaction?.replace(it1, tvShowReviewsFragment)?.commit()
+                    transaction?.add(it1, tvShowReviewsFragment)?.commit()
                     transaction?.addToBackStack(null)
                 }
             }

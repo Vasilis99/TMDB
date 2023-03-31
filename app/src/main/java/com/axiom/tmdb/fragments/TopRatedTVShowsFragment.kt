@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -17,7 +19,9 @@ import com.axiom.tmdb.TMDB
 import com.axiom.tmdb.adapters.TVShowsAdapter
 import com.axiom.tmdb.views.TopRatedTVShowsView
 import com.axiom.tmdb.views.shimmer.MyKoleton
+import com.axiomc.core.dslanguage.design.Image.imageView
 import com.axiomc.core.dslanguage.design.Recycler.onScrollBoundBot
+import com.axiomc.core.dslanguage.design.Text.text
 import koleton.Koleton
 import koleton.api.hideSkeleton
 import koleton.api.loadSkeleton
@@ -48,6 +52,7 @@ class TopRatedTVShowsFragment : Fragment() {
             val myApi = RetrofitHelper.getInstance().create(MyApi::class.java)
             lifecycleScope.launchWhenResumed {
                 shimmer.startShimmer()
+                title.text="Top rated TV Shows"
                 val response = myApi.getTopTVShows("287f6ab6616e3724955e2b4c6841ea63",1)
                 totalPages=response.body()!!.total_pages
                 var results = response.body()!!.results
@@ -70,7 +75,7 @@ class TopRatedTVShowsFragment : Fragment() {
 
                                     var transaction =
                                         activity?.supportFragmentManager?.beginTransaction()
-                                    transaction?.replace(it1, tvShowFragment)?.commit()
+                                    transaction?.add(it1, tvShowFragment)?.commit()
                                     transaction?.addToBackStack(null)
                                 }
                                 break
@@ -115,6 +120,7 @@ class TopRatedTVShowsFragment : Fragment() {
                 shimmer.stopShimmer()
                 shimmer.visibility=View.INVISIBLE
                 tvShowsRecyclerView.visibility=View.VISIBLE
+
             }
         }
     }

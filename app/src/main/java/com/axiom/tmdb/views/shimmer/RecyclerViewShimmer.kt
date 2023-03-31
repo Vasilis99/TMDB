@@ -114,7 +114,7 @@ class RecyclerViewShimmer(context: Context) : ShimmerFrameLayout(context) {
             listConLay.add(createItem())
         }
 
-        recyclerViewShimmer.addItemDecoration(MyItemDecoration(20,20,20))
+        recyclerViewShimmer.addItemDecoration(MyItemDecoration(20,20,20,20))
 
         recyclerViewShimmer.layoutManager=object : LinearLayoutManager(context) { override fun canScrollVertically() = false }
          recyclerViewShimmer.lazyAdd {

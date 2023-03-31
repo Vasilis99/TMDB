@@ -21,7 +21,7 @@ import com.axiomc.core.dslanguage.design.Text.text
 import com.axiomc.core.dslanguage.design.color.Theme.color
 
 class TopRatedMoviesView(context: Context) : ConstraintLayout(context) {
-    private val title =
+    val title =
         TextView(context).applyId().bold().color(Color.BLACK).text("Top rated Movies").size(20)
 
     public val moviesRecyclerView = RecyclerView(context).applyId()
@@ -30,13 +30,14 @@ class TopRatedMoviesView(context: Context) : ConstraintLayout(context) {
     init {
 
         applyId()
+        setBackgroundColor(Color.WHITE)
         layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
         title.layoutParams =
             LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
                 topToTop = this@TopRatedMoviesView.id
                 startToStart = this@TopRatedMoviesView.id
                 endToEnd = this@TopRatedMoviesView.id
-                setMargins(dp(10),0,0,0)
+                setMargins(20,0,20,0)
             }
         addView(title)
         moviesRecyclerView.layoutParams =
@@ -47,7 +48,7 @@ class TopRatedMoviesView(context: Context) : ConstraintLayout(context) {
                 bottomToBottom = this@TopRatedMoviesView.id
 
             }
-        moviesRecyclerView.addItemDecoration(MyItemDecoration(20,20,20))
+        moviesRecyclerView.addItemDecoration(MyItemDecoration(20,20,20,0))
 
         shimmer.layoutParams =
             LayoutParams(MATCH_PARENT, 0).apply {

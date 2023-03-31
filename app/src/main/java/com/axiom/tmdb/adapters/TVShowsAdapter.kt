@@ -53,10 +53,9 @@ class TVShowsAdapter(
 
 
 
-        holder.view.image.load("https://image.tmdb.org/t/p/w342" + listTVShows[position].poster_path) {
-            placeholder(R.drawable.my_placeholder)
-        }
-
+            holder.view.image.load("https://image.tmdb.org/t/p/w342" + listTVShows[position].poster_path) {
+                placeholder(R.drawable.my_placeholder)
+            }
 
         "${(position + 1)} ".also { holder.view.pos.text = it }
         holder.view.title.text = listTVShows[position].name

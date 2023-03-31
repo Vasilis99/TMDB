@@ -22,7 +22,7 @@ class SpecialView(context: Context):ConstraintLayout(context) {
     var recyclerView=RecyclerView(context).applyId()
     init{
         //applyId()
-        recyclerView.addItemDecoration(MyItemDecoration(10,10,10))
+        recyclerView.addItemDecoration(MyItemDecoration(10,10,10,10))
         layoutParams= LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         title.apply {
             layoutParams=ConstraintLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {

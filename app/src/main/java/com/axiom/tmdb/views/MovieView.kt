@@ -35,8 +35,9 @@ class MovieView(context: Context) : ConstraintLayout(context) {
 
     init {
         applyId()
+        this.setBackgroundColor(Color.WHITE)
         recyclerView.layoutParams= LayoutParams(MATCH_PARENT, MATCH_PARENT)
-        recyclerView.addItemDecoration(MyItemDecoration(10,10,dp(20)))
+        recyclerView.addItemDecoration(MyItemDecoration(10,10,0,dp(20)))
 
 
         movieMap["title"] = TextView(context).applyId().color(Color.BLACK).bold().size(22)

@@ -36,7 +36,7 @@ class RecyclerViewItemView(context: Context) : ConstraintLayout(context) {
     init{
         id= View.generateViewId()
         layoutParams= LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        image.layoutParams=LayoutParams(342, 342*1189/841).apply {
+        image.layoutParams=LayoutParams(342, 342*3/2).apply {
             topToTop=this@RecyclerViewItemView.id
             bottomToBottom=this@RecyclerViewItemView.id
             startToStart=this@RecyclerViewItemView.id

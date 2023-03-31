@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.replace
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -13,6 +14,7 @@ import com.axiom.tmdb.FavoriteManager
 import com.axiom.tmdb.MainActivity
 import com.axiom.tmdb.adapters.MoviesAdapter
 import com.axiom.tmdb.MyApi
+import com.axiom.tmdb.MyFragment
 import com.axiom.tmdb.RetrofitHelper
 import com.axiom.tmdb.TMDB
 import com.axiom.tmdb.adapters.TVShowsAdapter
@@ -37,8 +39,8 @@ class TopRatedMoviesFragment : Fragment() {
     ): View? = inflater.context.let {
         TopRatedMoviesView(it).apply {
             val myApi = RetrofitHelper.getInstance().create(MyApi::class.java)
-
             lifecycleScope.launchWhenResumed {
+                title.text="Top rated Movies"
                 shimmer.startShimmer()
                 var response = myApi.getTopRatedMovies("287f6ab6616e3724955e2b4c6841ea63", 1)
                 totalPages=response.body()!!.total_pages
@@ -58,10 +60,11 @@ class TopRatedMoviesFragment : Fragment() {
                                 var moviesFragment = MovieFragment.newInstance(movieID)
 
                                 (activity as? MainActivity)?.myLayout?.id?.let { it1 ->
-
                                     var transaction =
                                         activity?.supportFragmentManager?.beginTransaction()
-                                    transaction?.replace(it1, moviesFragment)?.commit()
+                                    var fragmentsViewModel=ViewModelProvider((activity as MainActivity))[FragmentsViewModel::class.java]
+                                    fragmentsViewModel.addFragment(this@TopRatedMoviesFragment)
+                                    transaction?.add(it1, moviesFragment)?.commit()
                                     transaction?.addToBackStack(null)
                                 }
                                 break

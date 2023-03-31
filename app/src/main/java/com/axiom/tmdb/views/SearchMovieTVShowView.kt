@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.axiomc.core.components.text.AxiomEditText
 import com.axiomc.core.dslanguage.constraint.Helpers.applyId
 import com.axiomc.core.dslanguage.conversion.Space.dp
+import com.axiomc.core.dslanguage.conversion.Space.rp
 import com.axiomc.core.dslanguage.design.Text.bold
 import com.axiomc.core.dslanguage.design.Text.size
 import com.axiomc.core.dslanguage.design.Text.text
@@ -22,9 +23,7 @@ import com.axiomc.core.dslanguage.design.color.Theme.color
 import com.axiomc.core.dslanguage.utility.Layout.margins
 import kotlinx.coroutines.awaitAll
 
-/**
- * TODO: document your custom view class.
- */
+
 class SearchMovieTVShowView(context: Context) : ConstraintLayout(context) {
     var title = TextView(context).applyId().bold().color(Color.BLACK).text("Search Movies-TV Shows")
         .size(20).applyId()
@@ -40,7 +39,7 @@ class SearchMovieTVShowView(context: Context) : ConstraintLayout(context) {
             topToTop = this@SearchMovieTVShowView.id
             startToStart = this@SearchMovieTVShowView.id
             endToEnd = this@SearchMovieTVShowView.id
-            setMargins(dp(10),0,0,0)
+            setMargins(20,0,20,0)
         }
 
         addView(title)
@@ -48,6 +47,7 @@ class SearchMovieTVShowView(context: Context) : ConstraintLayout(context) {
             topToBottom = title.id
             startToStart = this@SearchMovieTVShowView.id
             endToStart=tvShowButton.id
+            setMargins(0,20,0,0)
         }
 
         addView(tvShowInputBox)
@@ -56,9 +56,7 @@ class SearchMovieTVShowView(context: Context) : ConstraintLayout(context) {
             topToBottom = title.id
             endToEnd = this@SearchMovieTVShowView.id
             startToEnd = tvShowInputBox.id
-
-
-
+            setMargins(0,20,0,0)
         }
 
         addView(tvShowButton)

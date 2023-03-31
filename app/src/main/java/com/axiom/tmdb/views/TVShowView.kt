@@ -35,9 +35,10 @@ class TVShowView(context: Context) : ConstraintLayout(context) {
     var tvShowsShimmer = TVShowsShimmer(context)
 
     init {
-
+        applyId()
+        this.setBackgroundColor(Color.WHITE)
         recyclerView.layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
-        recyclerView.addItemDecoration(MyItemDecoration(10, 10, dp(20)))
+        recyclerView.addItemDecoration(MyItemDecoration(10, 10, 0, dp(20)))
 
         tvShowViews.add(TextView(context).color(Color.BLACK).bold().size(22))
 

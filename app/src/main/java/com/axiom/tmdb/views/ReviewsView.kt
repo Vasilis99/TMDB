@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.ScrollView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import com.axiomc.core.dslanguage.constraint.Helpers.applyId
 
 
 class ReviewsView(context: Context): ScrollView(context)  {
@@ -48,6 +49,8 @@ class ReviewsView(context: Context): ScrollView(context)  {
     var linLayout=LinearLayout(context)
     var title=TextView(context)
     init{
+        applyId()
+        this.setBackgroundColor(Color.WHITE)
         addView(linLayout)
         id= View.generateViewId()
         layoutParams=LayoutParams(MATCH_PARENT,MATCH_PARENT)

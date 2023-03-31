@@ -14,7 +14,7 @@ import com.axiom.tmdb.MainActivity
 import com.axiom.tmdb.MyApi
 import com.axiom.tmdb.TMDB
 import com.axiom.tmdb.adapters.TVShowsAdapter
-import com.axiom.tmdb.views.SearchedTVShowsView
+import com.axiom.tmdb.views.TopRatedTVShowsView
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -44,31 +44,31 @@ class SearchedTVShowsFragment:Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? = inflater.context.let {
-        SearchedTVShowsView(it).apply {
+        TopRatedTVShowsView(it).apply {
             val myApi = RetrofitHelper.getInstance().create(MyApi::class.java)
             lifecycleScope.launchWhenResumed {
+                shimmer.startShimmer()
                 var response= myApi.searchTVShow("287f6ab6616e3724955e2b4c6841ea63",searchTVShow)
-
+                title.text= "Searched \"$searchTVShow\""
                 var results = response.body()!!.results
                 for (x in results!!) {
                     tvShows.add(x)
                 }
                 var favorites= ViewModelProvider((activity as MainActivity))[FavoriteManager::class.java]
                 var f=favorites
-                recyclerView.layoutManager =
+                tvShowsRecyclerView.layoutManager =
                     LinearLayoutManager(context)
-                recyclerView.adapter =
+                tvShowsRecyclerView.adapter =
                     TVShowsAdapter(tvShows, favorites,{ tvShowID ->
                         for (x in tvShows) {
                             if (x.id == tvShowID) {
-                                println(tvShowID)
                                 var tvShowFragment = TVShowFragment.newInstance(tvShowID)
 
                                 (activity as? MainActivity)?.myLayout?.id?.let { it1 ->
 
                                     var transaction =
                                         activity?.supportFragmentManager?.beginTransaction()
-                                    transaction?.replace(it1, tvShowFragment)?.commit()
+                                    transaction?.add(it1, tvShowFragment)?.commit()
                                     transaction?.addToBackStack(null)
                                 }
                                 break
@@ -83,13 +83,14 @@ class SearchedTVShowsFragment:Fragment() {
 
 
                 var favObserver= Observer<List<Triple<Int, String, String>>> {updated->
-                    println("Updated "+updated)
-                    var adapter=(recyclerView.adapter as TVShowsAdapter)
+                    var adapter=(tvShowsRecyclerView.adapter as TVShowsAdapter)
                     adapter.fav=updated
                     adapter.notifyDataSetChanged()
                 }
                 favorites.getTVShowsFavorites().observe(viewLifecycleOwner,favObserver)
-
+                shimmer.stopShimmer()
+                shimmer.visibility=View.INVISIBLE
+                tvShowsRecyclerView.visibility=View.VISIBLE
             }
         }
     }

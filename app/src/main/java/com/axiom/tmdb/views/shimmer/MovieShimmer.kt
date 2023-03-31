@@ -129,7 +129,7 @@ class MovieShimmer(context: Context) : ShimmerFrameLayout(context) {
         for (i in 3..10) {
             tvShowViews.add(myShimmer())
         }
-        recyclerView.addItemDecoration(MyItemDecoration(10, 10, dp(20)))
+        recyclerView.addItemDecoration(MyItemDecoration(10, 10, 0,dp(20)))
         recyclerView.layoutManager = object : LinearLayoutManager(context) {
             override fun canScrollVertically() = false
         }

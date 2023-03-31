@@ -146,7 +146,7 @@ class TVShowsShimmer(context: Context) : ShimmerFrameLayout(context) {
             layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         })
 
-        recyclerView.addItemDecoration(MyItemDecoration(10,10,dp(20)))
+        recyclerView.addItemDecoration(MyItemDecoration(10,10,0,dp(20)))
         recyclerView.layoutManager=object : LinearLayoutManager(context) { override fun canScrollVertically() = false}
         recyclerView.lazyAdd {
             for (i in 0..28) {

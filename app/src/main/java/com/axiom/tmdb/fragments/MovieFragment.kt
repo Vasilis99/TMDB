@@ -193,7 +193,7 @@ class MovieFragment : Fragment() {
 
                         var transaction =
                             activity?.supportFragmentManager?.beginTransaction()
-                        transaction?.replace(it1, movieReviewsFragment)?.commit()
+                        transaction?.add(it1, movieReviewsFragment)?.commit()
                         transaction?.addToBackStack(null)
                     }
                 }

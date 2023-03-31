@@ -14,7 +14,7 @@ import com.axiom.tmdb.MainActivity
 import com.axiom.tmdb.adapters.MoviesAdapter
 import com.axiom.tmdb.MyApi
 import com.axiom.tmdb.TMDB
-import com.axiom.tmdb.views.SearchedTVShowsView
+import com.axiom.tmdb.views.TopRatedMoviesView
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -42,10 +42,12 @@ class SearchedMoviesFragment:Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? = inflater.context.let {
-        SearchedTVShowsView(it).apply {
+        TopRatedMoviesView(it).apply {
             val myApi = SearchedTVShowsFragment.RetrofitHelper.getInstance().create(MyApi::class.java)
             lifecycleScope.launchWhenResumed {
+                shimmer.startShimmer()
                 var response= myApi.searchMovie("287f6ab6616e3724955e2b4c6841ea63",searchMovie)
+                title.text= "Searched \"$searchMovie\""
                 var pages=response.body()!!.total_pages
                 var result = response.body()!!.results
                 for (x in result!!) {
@@ -53,9 +55,9 @@ class SearchedMoviesFragment:Fragment() {
                 }
 
                 var favorites= ViewModelProvider((activity as MainActivity))[FavoriteManager::class.java]
-                recyclerView.layoutManager =
+                moviesRecyclerView.layoutManager =
                     LinearLayoutManager(context)
-                recyclerView.adapter =
+                moviesRecyclerView.adapter =
                     MoviesAdapter(movies, favorites){ movieID ->
                         for (x in movies) {
                             if (x.id == movieID) {
@@ -66,7 +68,7 @@ class SearchedMoviesFragment:Fragment() {
 
                                     var transaction =
                                         activity?.supportFragmentManager?.beginTransaction()
-                                    transaction?.replace(it1, moviesFragment)?.commit()
+                                    transaction?.add(it1, moviesFragment)?.commit()
                                     transaction?.addToBackStack(null)
                                 }
                                 break
@@ -76,12 +78,15 @@ class SearchedMoviesFragment:Fragment() {
 
 
                 var favObserver= Observer<List<Triple<Int, String, String>>> {updated->
-                    println("Updated "+updated)
-                    var adapter=(recyclerView.adapter as MoviesAdapter)
+
+                    var adapter=(moviesRecyclerView.adapter as MoviesAdapter)
                     //adapter.fav=updated
                     adapter.notifyDataSetChanged()
                 }
                 favorites.getMoviesFavorites().observe(viewLifecycleOwner,favObserver)
+                shimmer.stopShimmer()
+                shimmer.visibility=View.INVISIBLE
+                moviesRecyclerView.visibility=View.VISIBLE
             }
         }
     }

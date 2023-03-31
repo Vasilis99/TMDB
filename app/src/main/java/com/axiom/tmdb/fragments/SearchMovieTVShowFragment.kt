@@ -31,7 +31,7 @@ class SearchMovieTVShowFragment : Fragment() {
 
                     var transaction =
                         activity?.supportFragmentManager?.beginTransaction()
-                    transaction?.replace(it1, searchedTVShowFragment)?.commit()
+                    transaction?.add(it1, searchedTVShowFragment)?.commit()
                     transaction?.addToBackStack(null)
                 }
             }
