@@ -53,7 +53,7 @@ class TVShowLastEpisodeView(context: Context) : ConstraintLayout(context) {
             startToStart = smallConLayout.id
         }
         smallConLayout.addView(linLayout)
-        for (i in 0..6) {
+        for (i in 0..5) {
             var titleDescription= TitleDescriptionView(context).horizontal()
             titleDescription.title.size(12)
             lastEpViews.add(titleDescription)

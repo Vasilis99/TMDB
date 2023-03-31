@@ -1,6 +1,6 @@
 package com.axiom.tmdb.views
 
-import RecyclerViewShimmer
+import com.axiom.tmdb.views.shimmer.RecyclerViewShimmer
 import android.content.Context
 import android.graphics.Color
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
@@ -10,7 +10,6 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.axiom.tmdb.MyItemDecoration
 import com.axiomc.core.dslanguage.constraint.Helpers.applyId
-import com.axiomc.core.dslanguage.conversion.Space.dp
 import com.axiomc.core.dslanguage.design.Text.bold
 import com.axiomc.core.dslanguage.design.Text.size
 import com.axiomc.core.dslanguage.design.Text.text
@@ -20,7 +19,7 @@ class TopRatedTVShowsView(context: Context) : ConstraintLayout(context) {
     private val title = TextView(context).applyId().bold().color(Color.BLACK).text("Top rated TV Shows").size(20)
 
     public val tvShowsRecyclerView = RecyclerView(context).applyId()
-    public val shimmer=RecyclerViewShimmer(context).applyId()
+    public val shimmer= RecyclerViewShimmer(context).applyId()
 
 
     init {

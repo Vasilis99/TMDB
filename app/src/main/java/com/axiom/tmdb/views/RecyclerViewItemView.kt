@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.axiomc.core.dslanguage.constraint.Helpers.applyId
+import com.axiomc.core.dslanguage.conversion.Space.dp
 import com.axiomc.core.dslanguage.design.Image.image
 import com.axiomc.core.dslanguage.design.Text.bold
 import com.axiomc.core.dslanguage.design.Text.size
@@ -37,7 +38,7 @@ class RecyclerViewItemView(context: Context) : ConstraintLayout(context) {
     init{
         id= View.generateViewId()
         layoutParams= LayoutParams(MATCH_PARENT, WRAP_CONTENT)
-        image.layoutParams=LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply {
+        image.layoutParams=LayoutParams(342, 342*1189/841).apply {
             topToTop=this@RecyclerViewItemView.id
             bottomToBottom=this@RecyclerViewItemView.id
             startToStart=this@RecyclerViewItemView.id
@@ -55,6 +56,7 @@ class RecyclerViewItemView(context: Context) : ConstraintLayout(context) {
             topToTop=conLayBig.id
             startToStart=conLayBig.id
             endToEnd=conLayBig.id
+            setMargins(0,0,dp(24),0)
         }
 
         conLayBig.addView(conLayFirst)
@@ -68,33 +70,22 @@ class RecyclerViewItemView(context: Context) : ConstraintLayout(context) {
             topToTop=conLayFirst.id
             bottomToBottom=conLayFirst.id
             startToEnd=pos.id
-            endToStart=favorite.id
+            endToEnd=conLayFirst.id
         }
         conLayFirst.addView(title)
 
 
         favorite.layoutParams= LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply {
-            topToTop=conLayFirst.id
-            bottomToBottom=conLayFirst.id
-            endToEnd=conLayFirst.id
+            topToTop=this@RecyclerViewItemView.id
+            endToEnd=this@RecyclerViewItemView.id
+            setMargins(0,20,20,0)
         }
-        conLayFirst.addView(favorite)
+        addView(favorite)
         conLaySecond.layoutParams= LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
             topToBottom=conLayFirst.id
             startToStart=conLayBig.id
         }
-        conLayBig.addView(conLaySecond) //        min.layoutParams= LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply {
-//            topToTop=conLaySecond.id
-//            bottomToBottom=conLaySecond.id
-//            startToStart=conLaySecond.id
-//        }
-//        conLaySecond.addView(min)
-//        genres.layoutParams= LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply{
-//            topToTop=conLaySecond.id
-//            bottomToBottom=conLaySecond.id
-//            startToEnd=min.id
-//        }
-//        conLaySecond.addView(genres)
+        conLayBig.addView(conLaySecond)
         star.layoutParams= LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply {
             topToTop=conLaySecond.id
             bottomToBottom=conLaySecond.id

@@ -39,6 +39,7 @@ class TopRatedMoviesFragment : Fragment() {
             val myApi = RetrofitHelper.getInstance().create(MyApi::class.java)
 
             lifecycleScope.launchWhenResumed {
+                shimmer.startShimmer()
                 var response = myApi.getTopRatedMovies("287f6ab6616e3724955e2b4c6841ea63", 1)
                 totalPages=response.body()!!.total_pages
                 var result = response.body()!!.results
@@ -96,7 +97,9 @@ class TopRatedMoviesFragment : Fragment() {
                     adapter.notifyDataSetChanged()
                 }
                 favorites.getMoviesFavorites().observe(viewLifecycleOwner,favObserver)
-
+                shimmer.stopShimmer()
+                shimmer.visibility=View.INVISIBLE
+                moviesRecyclerView.visibility=View.VISIBLE
             }
         }
     }

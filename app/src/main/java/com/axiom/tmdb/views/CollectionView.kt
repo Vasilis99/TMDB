@@ -39,7 +39,6 @@ class CollectionView(context: Context):ConstraintLayout(context){
         image.layoutParams= LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply {
             topToBottom=name.id
             startToStart=this@CollectionView.id
-            endToEnd=this@CollectionView.id
         }
 
         unknown.layoutParams= LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {

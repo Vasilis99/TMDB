@@ -33,7 +33,9 @@ class MoviesAdapter(var movies: List<TMDB.MovieBasic>, var favorites: FavoriteMa
             }
         }
 
-        holder.view.image.load("https://image.tmdb.org/t/p/w342"+listMovies[position].poster_path)
+        holder.view.image.load("https://image.tmdb.org/t/p/w342"+listMovies[position].poster_path){
+            placeholder(R.drawable.my_placeholder)
+        }
         "${(position + 1)} ".also { holder.view.pos.text = it }
         holder.view.title.text=listMovies[position].title
         holder.view.rating.text=listMovies[position].vote_average.toString()
