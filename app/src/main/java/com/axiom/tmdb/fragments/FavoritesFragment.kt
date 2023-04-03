@@ -26,9 +26,9 @@ class FavoritesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? = FavoritesView(inflater.context).apply {
+        shimmer.startShimmer()
         var saved = ViewModelProvider((activity as MainActivity))[FavoriteManager::class.java]
         tvShowsRecyclerView.layoutManager = LinearLayoutManager(context)
-       // var temp: MutableList<TMDB.TVShowBasic> = mutableListOf()
         tvShowsRecyclerView.adapter =
             FavoritesAdapter(1, saved, {
                 saved.deleteTVShowFavorites(it)
@@ -79,7 +79,8 @@ class FavoritesFragment : Fragment() {
         }
         saved.getMoviesFavorites().observe(viewLifecycleOwner, favObserver2)
 
-
+        shimmer.stopShimmer()
+        this.visibility=View.VISIBLE
     }
 
 }

@@ -23,6 +23,7 @@ class SearchMovieTVShowFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (view as SearchMovieTVShowView).apply {
+            view.shimmer.startShimmer()
             tvShowButton.setOnClickListener {
                 var searchedTVShowFragment =
                     SearchedTVShowsFragment.newInstance(view.tvShowInputBox.text.toString())
@@ -47,6 +48,9 @@ class SearchMovieTVShowFragment : Fragment() {
                     transaction?.addToBackStack(null)
                 }
             }
+            view.shimmer.stopShimmer()
+            view.shimmer.visibility=View.INVISIBLE
+            view.visibility=View.VISIBLE
         }
     }
 

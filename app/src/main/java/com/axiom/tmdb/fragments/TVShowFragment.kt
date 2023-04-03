@@ -231,7 +231,9 @@ class TVShowFragment : Fragment() {
 
             var poster = tvShowViews[19] as ImageView
 
-            poster.load("https://image.tmdb.org/t/p/original" + tvShowDetails.poster_path)
+            poster.load("https://image.tmdb.org/t/p/original" + tvShowDetails.poster_path){
+                placeholder(R.drawable.my_placeholder)
+            }
 
             var productionCompanies = (tvShowViews[20] as SpecialView)
             productionCompanies.title.text="Production companies"
@@ -307,12 +309,13 @@ class TVShowFragment : Fragment() {
             var button=tvShowViews[28] as Button
             tvShowsShimmer.stopShimmer()
 
-            println(poster.width.toString()+'\n'+poster.height)
+
 
             tvShowsShimmer.visibility= INVISIBLE
             recyclerView.visibility=VISIBLE
 
             button.setOnClickListener {
+                println(poster.width.toString()+'\n'+poster.height)
                 var tvShowReviewsFragment =
                     TVShowReviewsFragment.newInstance(tvShowDetails.id, tvShowDetails.name)
 

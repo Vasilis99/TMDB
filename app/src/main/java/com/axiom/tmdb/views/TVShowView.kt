@@ -82,6 +82,12 @@ class TVShowView(context: Context) : ConstraintLayout(context) {
                        width= MATCH_PARENT
                    })
                 }
+                else if(i==19){
+                    add(tvShowViews[i].bind {
+                        height=1590
+                        width=1060
+                    })
+                }
                 else{
                     add(tvShowViews[i])
                 }

@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.axiom.tmdb.MyItemDecoration
+import com.axiom.tmdb.views.shimmer.FavoritesShimmer
 import com.axiomc.core.dslanguage.constraint.Helpers.applyId
 import com.axiomc.core.dslanguage.design.Text.size
 import com.axiomc.core.dslanguage.design.Text.text
@@ -19,6 +20,7 @@ class FavoritesView(context: Context):ConstraintLayout(context){
     var tvShowsRecyclerView=RecyclerView(context).applyId()
     var moviesTitle=TextView(context).text("Favorite Movies").color(Color.BLACK).size(20).applyId()
     var moviesRecyclerView=RecyclerView(context).applyId()
+    var shimmer=FavoritesShimmer(context)
     init {
         applyId()
         tvShowsTitle.apply {
@@ -58,5 +60,7 @@ class FavoritesView(context: Context):ConstraintLayout(context){
         addView(tvShowsRecyclerView)
         addView(moviesTitle)
         addView(moviesRecyclerView)
+        visibility= INVISIBLE
+        addView(shimmer)
     }
 }

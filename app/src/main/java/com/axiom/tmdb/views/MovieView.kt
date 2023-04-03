@@ -42,9 +42,7 @@ class MovieView(context: Context) : ConstraintLayout(context) {
 
         movieMap["title"] = TextView(context).applyId().color(Color.BLACK).bold().size(22)
         movieMap["adult"] = TitleDescriptionView(context).vertical()
-        movieMap["backdrop"] = ImageView(context).applyId().apply {
-            layoutParams= LayoutParams(WRAP_CONTENT, WRAP_CONTENT)
-        }
+        movieMap["backdrop"] = ImageView(context).applyId()
         movieMap["collection"] = CollectionView(context)
         movieMap["budget"] = TitleDescriptionView(context).vertical()
         movieMap["genres"] = TitleDescriptionView(context).vertical()
@@ -68,7 +66,16 @@ class MovieView(context: Context) : ConstraintLayout(context) {
 
         recyclerView.vLinear.lazyAdd{
             movieMap.forEach {
-                add(it.value)
+                if(it.key=="backdrop"){
+                    add(it.value.bind {
+                        height= 596
+                        width= MATCH_PARENT
+                    })
+                }
+                else{
+                    add(it.value)
+                }
+
             }
         }
         addView(recyclerView)

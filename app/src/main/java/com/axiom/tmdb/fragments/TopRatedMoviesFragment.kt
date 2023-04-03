@@ -62,8 +62,7 @@ class TopRatedMoviesFragment : Fragment() {
                                 (activity as? MainActivity)?.myLayout?.id?.let { it1 ->
                                     var transaction =
                                         activity?.supportFragmentManager?.beginTransaction()
-                                    var fragmentsViewModel=ViewModelProvider((activity as MainActivity))[FragmentsViewModel::class.java]
-                                    fragmentsViewModel.addFragment(this@TopRatedMoviesFragment)
+
                                     transaction?.add(it1, moviesFragment)?.commit()
                                     transaction?.addToBackStack(null)
                                 }

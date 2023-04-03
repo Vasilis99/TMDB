@@ -12,6 +12,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.marginTop
 import androidx.recyclerview.widget.RecyclerView
+import com.axiom.tmdb.views.shimmer.SearchMovieTVShowShimmer
 import com.axiomc.core.components.text.AxiomEditText
 import com.axiomc.core.dslanguage.constraint.Helpers.applyId
 import com.axiomc.core.dslanguage.conversion.Space.dp
@@ -31,6 +32,7 @@ class SearchMovieTVShowView(context: Context) : ConstraintLayout(context) {
     var tvShowButton = Button(context).applyId().text("Search TV Show")
     var movieInputBox = AxiomEditText(context).applyId()
     var movieButton = Button(context).applyId().text("Search Movie")
+    var shimmer=SearchMovieTVShowShimmer(context)
     init {
         id = generateViewId()
         layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
@@ -76,6 +78,7 @@ class SearchMovieTVShowView(context: Context) : ConstraintLayout(context) {
             endToEnd = this@SearchMovieTVShowView.id
         }
         addView(movieButton)
-
+        addView(shimmer)
+        visibility= INVISIBLE
     }
 }
