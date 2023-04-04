@@ -50,11 +50,16 @@ class MovieReviewsFragment : Fragment() {
                 reviewView.apply {
                     layoutParams= LinearLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT)
                 }
-                reviewView.author.text=Html.fromHtml("<p><b>Author</b><br>${x.author}</p>",1)
-                reviewView.content.text=Html.fromHtml("<p><b>Content</b><br>${x.content}</p>",1)
-                reviewView.createdAt.text=Html.fromHtml("<p><b>Created at</b><br>${x.created_at}</p>",1)
-                reviewView.updatedAt.text=Html.fromHtml("<p><b>Updated at</b><br>${x.updated_at}</p>",1)
-                reviewView.url.text=Html.fromHtml("<p><b>URLt</b><br>${x.url}</p>",1)
+                reviewView.author.title.text="Author"
+                reviewView.author.desc.text=x.author
+                reviewView.content.title.text="Content"
+                reviewView.content.desc.text=x.content
+                reviewView.createdAt.title.text="Created at"
+                reviewView.createdAt.desc.text=x.created_at
+                reviewView.updatedAt.title.text="Updated at"
+                reviewView.updatedAt.desc.text=x.updated_at
+                reviewView.url.title.text="URL"
+                reviewView.url.desc.text=x.url
 
                 linLayout.addView(reviewView)
 

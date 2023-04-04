@@ -17,6 +17,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
@@ -49,12 +50,15 @@ class TVShowFragment : Fragment() {
         } else if (bundle == null) {
             Toast.makeText(activity, "Error", Toast.LENGTH_LONG).show();
         }
-        println("Fragment")
+
+        //val latestFragment= ViewModelProvider(this)[FragmentsViewModel::class.java]
+       // latestFragment.addFragment(this)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        println("On destroy")
+
+        println("On destroy tvshow fragment")
     }
 
     override fun onCreateView(
@@ -336,6 +340,7 @@ class TVShowFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
     }
+
 
     companion object {
         @JvmStatic

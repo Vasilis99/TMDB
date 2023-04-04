@@ -16,6 +16,7 @@ import com.axiom.tmdb.MyApi
 import com.axiom.tmdb.RetrofitHelper
 import com.axiom.tmdb.TMDB
 import com.axiom.tmdb.views.ReviewsView
+import com.axiomc.tmdb.R
 
 class TVShowReviewsFragment : Fragment() {
     var tvShowID = 0
@@ -48,13 +49,28 @@ class TVShowReviewsFragment : Fragment() {
                 reviewView.apply {
                     layoutParams= LinearLayout.LayoutParams(MATCH_PARENT,WRAP_CONTENT)
                 }
-                reviewView.author.text=Html.fromHtml("<p><b>Author</b><br>${x.author}</p>",1)
-                reviewView.content.text=Html.fromHtml("<p><b>Content</b><br>${x.content}</p>",1)
-                reviewView.createdAt.text=Html.fromHtml("<p><b>Created at</b><br>${x.created_at}</p>",1)
-                reviewView.updatedAt.text=Html.fromHtml("<p><b>Updated at</b><br>${x.updated_at}</p>",1)
-                reviewView.url.text=Html.fromHtml("<p><b>URLt</b><br>${x.url}</p>",1)
+                reviewView.author.title.text="Author"
+                reviewView.author.desc.text=x.author
+                reviewView.content.title.text="Content"
+                reviewView.content.desc.text=x.content
+                reviewView.createdAt.title.text="Created at"
+                reviewView.createdAt.desc.text=x.created_at
+                reviewView.updatedAt.title.text="Updated at"
+                reviewView.updatedAt.desc.text=x.updated_at
+                reviewView.url.title.text="URL"
+                reviewView.url.desc.text=x.url
+                val params = LinearLayout.LayoutParams(
+                    MATCH_PARENT, WRAP_CONTENT
+                )
+                params.setMargins(0, 20, 0, 0) // LEFT, TOP, RIGHT, BOTTOM
 
-                linLayout.addView(reviewView)
+                if(i%2==0){
+                    reviewView.setBackgroundResource(R.color.gray_1)
+                }
+                else{
+                    reviewView.setBackgroundResource(R.color.gray_2)
+                }
+                linLayout.addView(reviewView,params)
 
             }
             if(tvShowReviews.results.isEmpty()){

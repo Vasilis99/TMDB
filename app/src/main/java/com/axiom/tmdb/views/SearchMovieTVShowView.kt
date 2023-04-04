@@ -66,7 +66,6 @@ class SearchMovieTVShowView(context: Context) : ConstraintLayout(context) {
             topToBottom = tvShowInputBox.id
             startToStart = this@SearchMovieTVShowView.id
             endToStart=movieButton.id
-
         }
 
         addView(movieInputBox)

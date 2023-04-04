@@ -66,12 +66,14 @@ class TVShowLastEpisodeView(context: Context) : ConstraintLayout(context) {
         overview.layoutParams = ConstraintLayout.LayoutParams(800, WRAP_CONTENT).apply {
             topToTop = smallConLayout.id
             startToEnd = linLayout.id
+            setMargins(20,0,0,0)
         }
         smallConLayout.addView(overview)
 
         image.layoutParams = ConstraintLayout.LayoutParams(WRAP_CONTENT, WRAP_CONTENT).apply {
             topToTop = smallConLayout.id
             startToEnd = overview.id
+            setMargins(20,0,0,0)
         }
         smallConLayout.addView(image)
         unknown.layoutParams=ConstraintLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {

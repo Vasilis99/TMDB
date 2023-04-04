@@ -9,9 +9,11 @@ import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.lifecycle.ViewModelProvider
 import androidx.preference.PreferenceManager
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
+import com.axiom.tmdb.fragments.FragmentsViewModel
 import com.axiomc.core.AxiomConfig.appContext
 import com.google.android.material.tabs.TabItem
 import com.google.android.material.tabs.TabLayout
@@ -36,6 +38,17 @@ class MainActivity : AppCompatActivity() {
               // .apply { if (backStack) addToBackStack(null) }
                 .commit()
 
+//        val latestFragment= ViewModelProvider(this)[FragmentsViewModel::class.java]
+//        if(latestFragment.getFragment()!=null) {
+//            latestFragment.fragmentLiveData.value?.let {
+//                supportFragmentManager.beginTransaction().replace(myLayout.id, it)
+//                    // .apply { if (backStack) addToBackStack(null) }
+//                    .commit()
+//            }
+//        }
+//        else{
+//            println("Einai null to live data")
+//        }
 
 
 
@@ -66,5 +79,10 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        println("Activity destroyed")
     }
 }
