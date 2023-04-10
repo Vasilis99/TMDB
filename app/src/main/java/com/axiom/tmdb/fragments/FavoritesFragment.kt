@@ -1,6 +1,9 @@
 package com.axiom.tmdb.fragments
 
+
 import android.os.Bundle
+import android.transition.AutoTransition
+import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +13,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.axiom.tmdb.FavoriteManager
 import com.axiom.tmdb.MainActivity
-import com.axiom.tmdb.TMDB
 import com.axiom.tmdb.adapters.FavoritesAdapter
 import com.axiom.tmdb.views.FavoritesView
+import com.axiomc.tmdb.R
+
 
 class FavoritesFragment : Fragment() {
 
@@ -81,6 +85,32 @@ class FavoritesFragment : Fragment() {
 
         shimmer.stopShimmer()
         this.visibility=View.VISIBLE
+        tvShowsArrow.setOnClickListener{
+            if (tvShowsRecyclerView.visibility === View.VISIBLE) {
+                // The transition of the hiddenView is carried out by the TransitionManager class.
+                // Here we use an object of the AutoTransition Class to create a default transition
+                //TransitionManager.beginDelayedTransition(tvShowsRecyclerView, AutoTransition())
+                tvShowsRecyclerView.visibility=View.GONE
+                tvShowsArrow.setImageResource(R.drawable.arrow_drop_down)
+            } else {
+                //TransitionManager.beginDelayedTransition(tvShowsRecyclerView, AutoTransition())
+                tvShowsRecyclerView.visibility = View.VISIBLE
+                tvShowsArrow.setImageResource(R.drawable.arrow_drop_up)
+            }
+        }
+        moviesArrow.setOnClickListener{
+            if (moviesRecyclerView.visibility === View.VISIBLE) {
+                // The transition of the hiddenView is carried out by the TransitionManager class.
+                // Here we use an object of the AutoTransition Class to create a default transition
+                //TransitionManager.beginDelayedTransition(tvShowsRecyclerView, AutoTransition())
+                moviesRecyclerView.visibility=View.GONE
+                moviesArrow.setImageResource(R.drawable.arrow_drop_down)
+            } else {
+                //TransitionManager.beginDelayedTransition(tvShowsRecyclerView, AutoTransition())
+                moviesRecyclerView.visibility = View.VISIBLE
+                moviesArrow.setImageResource(R.drawable.arrow_drop_up)
+            }
+        }
     }
 
 }
