@@ -2,6 +2,7 @@ package com.vasilis.tmdb.views
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Typeface
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
@@ -27,7 +28,12 @@ class TVShowView(context: Context) : ConstraintLayout(context) {
         recyclerView.layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
         recyclerView.addItemDecoration(MyItemDecoration(10, 10, 0,20))
 
-        tvShowViews.add(TextView(context).color(Color.BLACK).bold().size(22))
+        tvShowViews.add(TextView(context).apply {
+            id = View.generateViewId()
+            typeface = Typeface.DEFAULT_BOLD
+            setTextColor(Color.BLACK)
+            textSize = 22F
+        })
 
 
         tvShowViews.add(ImageView(context).apply{id=View.generateViewId()}.apply {
@@ -51,38 +57,41 @@ class TVShowView(context: Context) : ConstraintLayout(context) {
             tvShowViews.add(TitleDescriptionView(context).vertical())
         }
 
-        tvShowViews.add(Button(context).apply{id=View.generateViewId()}.text("Reviews").apply {
+        tvShowViews.add(Button(context).apply{
+            id=View.generateViewId()
+            text="Reviews"
             layoutParams = LinearLayout.LayoutParams(MATCH_PARENT, WRAP_CONTENT)
         })
-        linearLayout.apply {
-            orientation = LinearLayout.VERTICAL
-            layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
-                setMargins(10, 0, 10, dp(20))
-            }
-        }
-        var dpi=resources.displayMetrics.ydpi
-        recyclerView.vLinear.lazyAdd {
-            for (i in 0..28) {
-                if(i==1){
-                   add(tvShowViews[i].bind {
-                       height= 596
-                       width= MATCH_PARENT
-                   })
-                }
-                else if(i==19){
-                    add(tvShowViews[i].bind {
-                        height=1590
-                        width=1060
-                    })
-                }
-                else{
-                    add(tvShowViews[i])
+            linearLayout.apply {
+                orientation = LinearLayout.VERTICAL
+                layoutParams = LayoutParams(MATCH_PARENT, WRAP_CONTENT).apply {
+                    setMargins(10, 0, 10, 20)
                 }
             }
-        }
+            var dpi=resources.displayMetrics.ydpi
+            recyclerView.vLinear.lazyAdd {
+                for (i in 0..28) {
+                    if(i==1){
+                        add(tvShowViews[i].bind {
+                            height= 596
+                            width= MATCH_PARENT
+                        })
+                    }
+                    else if(i==19){
+                        add(tvShowViews[i].bind {
+                            height=1590
+                            width=1060
+                        })
+                    }
+                    else{
+                        add(tvShowViews[i])
+                    }
+                }
+            }
 
-        recyclerView.visibility = INVISIBLE
-        addView(recyclerView)
-        addView(tvShowsShimmer)
+            recyclerView.visibility = INVISIBLE
+            addView(recyclerView)
+            addView(tvShowsShimmer)
+        }
     }
 }

@@ -87,7 +87,7 @@ class MovieShimmer(context: Context) : ShimmerFrameLayout(context) {
                     topToBottom = name.id
                     startToStart = creator.id
                     endToEnd = creator.id
-                    minHeight = dp(50)
+                    minHeight = 50
                     setMargins(0, 10, 0, 0)
                 }
             }

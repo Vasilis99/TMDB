@@ -16,7 +16,8 @@ class MyKoleton(context: Context) : ConstraintLayout(context) {
 
         var image = ImageView(context).apply{id=View.generateViewId()}
 
-        var secConLay=ConstraintLayout(context).apply{id=View.generateViewId()}.apply {
+        var secConLay=ConstraintLayout(context).apply{
+            id=View.generateViewId()
             setBackgroundColor(Color.GRAY)
         }
         var title = TextView(context).apply{id=View.generateViewId()}.color(Color.BLACK).bold().size(14)

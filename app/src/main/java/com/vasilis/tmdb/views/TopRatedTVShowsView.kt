@@ -3,6 +3,7 @@ package com.vasilis.tmdb.views
 import com.vasilis.tmdb.views.shimmer.RecyclerViewShimmer
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Typeface
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
@@ -13,7 +14,11 @@ import com.vasilis.tmdb.MyItemDecoration
 
 
 class TopRatedTVShowsView(context: Context) : ConstraintLayout(context) {
-    val title = TextView(context).apply{id= View.generateViewId()}.bold().color(Color.BLACK).size(20)
+    val title = TextView(context).apply {
+        typeface= Typeface.DEFAULT_BOLD
+        setTextColor(Color.BLACK)
+        textSize=14F
+    }
 
     val tvShowsRecyclerView = RecyclerView(context).apply{id=View.generateViewId()}
     val shimmer= RecyclerViewShimmer(context).apply{id=View.generateViewId()}

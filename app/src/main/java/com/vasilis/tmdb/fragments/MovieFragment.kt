@@ -24,8 +24,6 @@ import com.vasilis.tmdb.views.MovieView
 import com.vasilis.tmdb.views.SpecialView
 import com.vasilis.tmdb.views.TitleDescriptionView
 
-
-
 class MovieFragment : Fragment() {
     private var mID: Int = 0
     private lateinit var movieDetails: TMDB.MovieDetails

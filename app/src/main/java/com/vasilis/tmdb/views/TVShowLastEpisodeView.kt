@@ -6,6 +6,7 @@ import android.widget.TextView
 
 
 import android.content.Context
+import android.graphics.Typeface
 import android.view.View
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
 import android.widget.FrameLayout
@@ -16,13 +17,22 @@ import androidx.constraintlayout.widget.ConstraintLayout
 
 
 class TVShowLastEpisodeView(context: Context) : ConstraintLayout(context) {
-    var title=TextView(context).apply{id=View.generateViewId()}.bold().color(Color.BLACK).size(14)
+    var title=TextView(context).apply {
+        id = View.generateViewId()
+        typeface= Typeface.DEFAULT_BOLD
+        setTextColor(Color.BLACK)
+        textSize=14F
+    }
     var scrollView=HorizontalScrollView(context).apply{id=View.generateViewId()}
     var smallConLayout = ConstraintLayout(context).apply{id=View.generateViewId()}
     var linLayout = LinearLayout(context).apply{id=View.generateViewId()}
     var overview = TitleDescriptionView(context).vertical()
     var image = ImageView(context).apply{id=View.generateViewId()}
-    var unknown = TextView(context).color(Color.BLACK).apply{id=View.generateViewId()}.text("Unknown")
+    var unknown = TextView(context).apply {
+        id = View.generateViewId()
+        setTextColor(Color.BLACK)
+        text="Unknown"
+    }
     var lastEpViews: MutableList<View> = mutableListOf()
 
     init {
@@ -51,14 +61,18 @@ class TVShowLastEpisodeView(context: Context) : ConstraintLayout(context) {
         smallConLayout.addView(linLayout)
         for (i in 0..5) {
             var titleDescription= TitleDescriptionView(context).horizontal()
-            titleDescription.title.size(12)
+            titleDescription.title.apply {
+                textSize=12F
+            }
             lastEpViews.add(titleDescription)
         }
 
         for (x in lastEpViews) {
             linLayout.addView(x)
         }
-        overview.title.size(12)
+        overview.title.apply {
+            textSize=12F
+        }
         overview.layoutParams = ConstraintLayout.LayoutParams(800, WRAP_CONTENT).apply {
             topToTop = smallConLayout.id
             startToEnd = linLayout.id

@@ -2,6 +2,7 @@ package com.vasilis.tmdb.views
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Typeface
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
@@ -12,15 +13,26 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.vasilis.tmdb.views.shimmer.SearchMovieTVShowShimmer
 
 
-
 class SearchMovieTVShowView(context: Context) : ConstraintLayout(context) {
-    var title = TextView(context).apply{id=View.generateViewId()}.bold().color(Color.BLACK).text("Search Movies-TV Shows")
-        .size(20).apply{id= View.generateViewId()}
-    var tvShowInputBox = EditText(context).apply{id=View.generateViewId()}
-    var tvShowButton = Button(context).apply{id=View.generateViewId()}.text("Search TV Show")
-    var movieInputBox = EditText(context).apply{id=View.generateViewId()}
-    var movieButton = Button(context).apply{id=View.generateViewId()}.text("Search Movie")
-    var shimmer=SearchMovieTVShowShimmer(context)
+    var title = TextView(context).apply {
+        id = View.generateViewId()
+        typeface = Typeface.DEFAULT_BOLD
+        setTextColor(Color.BLACK)
+        text = "Search Movies-TV Shows"
+        textSize = 20F
+    }
+    var tvShowInputBox = EditText(context).apply { id = View.generateViewId() }
+    var tvShowButton = Button(context).apply {
+        id = View.generateViewId()
+        text = "Search TV Show"
+    }
+    var movieInputBox = EditText(context).apply { id = View.generateViewId() }
+    var movieButton = Button(context).apply {
+        id = View.generateViewId()
+        text = "Search Movie"
+    }
+    var shimmer = SearchMovieTVShowShimmer(context)
+
     init {
         id = generateViewId()
         layoutParams = LayoutParams(MATCH_PARENT, MATCH_PARENT)
@@ -29,15 +41,15 @@ class SearchMovieTVShowView(context: Context) : ConstraintLayout(context) {
             topToTop = this@SearchMovieTVShowView.id
             startToStart = this@SearchMovieTVShowView.id
             endToEnd = this@SearchMovieTVShowView.id
-            setMargins(20,0,20,0)
+            setMargins(20, 0, 20, 0)
         }
 
         addView(title)
         tvShowInputBox.layoutParams = LayoutParams(400, WRAP_CONTENT).apply {
             topToBottom = title.id
             startToStart = this@SearchMovieTVShowView.id
-            endToStart=tvShowButton.id
-            setMargins(0,20,0,0)
+            endToStart = tvShowButton.id
+            setMargins(0, 20, 0, 0)
         }
 
         addView(tvShowInputBox)
@@ -46,14 +58,14 @@ class SearchMovieTVShowView(context: Context) : ConstraintLayout(context) {
             topToBottom = title.id
             endToEnd = this@SearchMovieTVShowView.id
             startToEnd = tvShowInputBox.id
-            setMargins(0,20,0,0)
+            setMargins(0, 20, 0, 0)
         }
 
         addView(tvShowButton)
         movieInputBox.layoutParams = LayoutParams(400, WRAP_CONTENT).apply {
             topToBottom = tvShowInputBox.id
             startToStart = this@SearchMovieTVShowView.id
-            endToStart=movieButton.id
+            endToStart = movieButton.id
         }
 
         addView(movieInputBox)
@@ -66,6 +78,6 @@ class SearchMovieTVShowView(context: Context) : ConstraintLayout(context) {
         }
         addView(movieButton)
         addView(shimmer)
-        visibility= INVISIBLE
+        visibility = INVISIBLE
     }
 }

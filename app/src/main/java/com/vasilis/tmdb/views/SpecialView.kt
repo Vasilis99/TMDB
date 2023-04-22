@@ -2,6 +2,7 @@ package com.vasilis.tmdb.views
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Typeface
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
@@ -12,7 +13,12 @@ import com.vasilis.tmdb.MyItemDecoration
 
 
 class SpecialView(context: Context):ConstraintLayout(context) {
-    var title=TextView(context).apply{id= View.generateViewId()}.color(Color.BLACK).bold().size(14)
+    var title=TextView(context).apply {
+        id = View.generateViewId()
+        typeface = Typeface.DEFAULT_BOLD
+        setTextColor(Color.BLACK)
+        textSize = 14F
+    }
     var unknown=TextView(context).apply{id=View.generateViewId()}.setText("Unknown")
     var recyclerView=RecyclerView(context).apply{id=View.generateViewId()}
     init{

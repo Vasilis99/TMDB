@@ -2,6 +2,7 @@ package com.vasilis.tmdb.views
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Typeface
 import android.view.View
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.view.ViewGroup.LayoutParams.WRAP_CONTENT
@@ -35,7 +36,12 @@ class ReviewsView(context: Context): ScrollView(context)  {
         }
     }
     var linLayout=LinearLayout(context)
-    var title=TextView(context).apply{id=View.generateViewId()}.bold().color(Color.BLACK).size(20)
+    var title=TextView(context).apply {
+        id = View.generateViewId()
+        typeface= Typeface.DEFAULT_BOLD
+        setTextColor(Color.BLACK)
+        textSize=20F
+    }
     init{
         apply{id=View.generateViewId()}
         this.setBackgroundColor(Color.WHITE)
